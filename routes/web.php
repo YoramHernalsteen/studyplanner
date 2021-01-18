@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ChapterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,6 @@ Route::group(['middleware'=>'auth'], function(){
     //COURSES
     Route::get('/', [CourseController::class, 'index']);
     Route::post('/courses/create', [CourseController::class, 'store']);
+    //CHAPTERS
+    Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
 });

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+use App\Models\Chapter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CourseController extends Controller
+class ChapterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return view('courses.index', [
-            'user'=> Auth::user(),
-            'courses'=> Course::where('user_id', '=', Auth::id())->get()
-        ]);
+        //
     }
 
     /**
@@ -39,26 +35,16 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:courses|max:190',
-            'exam_form'=>'required|max:190',
-        ]);
-        $course = new Course();
-        $course->setName(request('name'));
-        $course->setUserId(Auth::id());
-        $course->setExamForm(request('exam_form'));
-        $course->save();
-        return redirect('/')->with('message', 'new course: ' . $course->getName());
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Course  $course
+     * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show(Chapter $chapter)
     {
         //
     }
@@ -66,10 +52,10 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Course  $course
+     * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit(Chapter $chapter)
     {
         //
     }
@@ -78,21 +64,30 @@ class CourseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Course  $course
+     * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, Chapter $chapter)
     {
         //
     }
 
+    public function updateStatus(Request $request, Chapter $chapter)
+    {
+        $request->validate([
+            'status' => 'required|in:not-started,busy,done',
+        ]);
+        $chapter->setStatus(request('status'));
+        $chapter->save();
+        return redirect('/')->with('message', 'Status for ' . $chapter->getName() . ' set to ' . $chapter->getStatus());
+    }
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Course  $course
+     * @param  \App\Models\Chapter  $chapter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy(Chapter $chapter)
     {
         //
     }
