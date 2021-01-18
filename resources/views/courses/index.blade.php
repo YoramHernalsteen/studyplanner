@@ -13,6 +13,13 @@
                 @endforeach
             </div>
         @endif
+        <div class="row mt-3">
+            @if(session('message'))
+                <div class="alert alert-success col-md-12">
+                    {{session('message')}}
+                </div>
+            @endif
+        </div>
         <div class="row">
             <div class="col-12">
                 <p>Hey, {{$user->name}}  <i class="bi bi-plus-square cursor" style="font-size: 2em" data-toggle="modal" data-target="#newCourseModal"></i></p>
@@ -25,7 +32,7 @@
                         <h4>{{$course->getName()}}</h4>
                     </div>
                     <div class="col-5">
-                        <i class="bi bi-bookmark-plus" style="font-size: 1.25em"></i>
+                        <i class="bi bi-bookmark-plus cursor chapter_create" id="chapterCreate{{$course->id}}" style="font-size: 1.75em" data-toggle="modal" data-target="#newChapterModal" data-course="{{$course->getName()}}" data-action="/chapters/create/{{$course->id}}"></i>
                     </div>
                 </div>
 
@@ -113,4 +120,63 @@
             </div>
         </div>
     </div>
+    <!-- NEW CHAPTER -->
+    <div class="modal fade" id="newChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New chapter for <span class="activeCourse"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" id="chapterCreateForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Title</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control @error('name') is-invalid @enderror" required value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="pages">Pages</label>
+                            <input type="numeric" name="pages" id="pages"
+                                   class="form-control @error('pages') is-invalid @enderror" required value="{{old('pages')}}">
+                            @error('pages')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--JAVASCRIPT -->
+    <script>
+        $(function () {
+            $(".chapter_create").click(function () {
+                console.log("yessss");
+                //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                let id = $(this).attr("id");
+                let name = document.getElementById(id).dataset['course'];
+                let action = document.getElementById(id).dataset['action'];
+                $('.activeCourse').text(name);
+                $('#chapterCreateForm').attr('action', action);
+            });
+        });
+
+    </script>
 @endsection

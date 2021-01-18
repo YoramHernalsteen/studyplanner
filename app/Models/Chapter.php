@@ -18,6 +18,9 @@ class Chapter extends Model
     public function getStatus(){
         return $this->status;
     }
+    public function setCourse($course){
+        $this->course_id = $course;
+    }
     public function setName($name){
         $this->name = $name;
     }

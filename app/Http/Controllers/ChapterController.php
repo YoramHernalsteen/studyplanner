@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class ChapterController extends Controller
@@ -30,12 +31,23 @@ class ChapterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Course $course
+     * @return void
      */
-    public function store(Request $request)
+    public function store(Request $request, Course $course)
     {
-        //
+        $request->validate([
+            'name'=>'required|max:190',
+            'pages'=>'required|numeric|min:0'
+        ]);
+        $chapter = new Chapter();
+        $chapter->setStatus('not-started');
+        $chapter->setPages(request('pages'));
+        $chapter->setName(request('name'));
+        $chapter->setCourse($course->id);
+        $chapter->save();
+        return redirect('/')->with('message', 'New chapter added for ' . $course->getName() . '.');
     }
 
     /**

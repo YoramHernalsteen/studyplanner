@@ -20,5 +20,6 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/', [CourseController::class, 'index']);
     Route::post('/courses/create', [CourseController::class, 'store']);
     //CHAPTERS
+    Route::post('/chapters/create/{course}', [ChapterController::class, 'store']);
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
 });
