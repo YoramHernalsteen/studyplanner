@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +16,6 @@ use App\Http\Controllers\HomeController;
 
 Route::group(['middleware'=>'auth'], function(){
     //COURSES
-    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/', [CourseController::class, 'index']);
+    Route::post('/courses/create', [CourseController::class, 'store']);
 });

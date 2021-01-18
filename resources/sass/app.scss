@@ -1,7 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
-
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 //GENERAL CSS
-
+.cursor{
+    cursor: pointer;
+}
 //AUTH CSS
 .brand-wrapper {
     margin-bottom: 19px;
