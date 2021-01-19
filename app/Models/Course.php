@@ -31,4 +31,8 @@ class Course extends Model
     public function getChapters(){
         return $this->hasMany(Chapter::class);
     }
+    public function randomColor(){
+        $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
+        return $colors[rand(0, count($colors)-1)];
+    }
 }
