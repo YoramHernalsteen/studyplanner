@@ -21,6 +21,9 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/', [PeriodController::class, 'index']);
     Route::get('/periods/{period}', [PeriodController::class, 'show']);
     Route::post('/periods/create', [PeriodController::class,'store']);
+    Route::post('/periods/edit/{period}', [PeriodController::class, 'update']);
+    Route::post('/periods/delete/{period}', [PeriodController::class, 'destroy']);
+
     //COURSES
     Route::post('/courses/create/{period}', [CourseController::class, 'store']);
     //CHAPTERS

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     //
-    public function index(){
+    public function documentation(){
         return view('courses.index', [
             'user'=> Auth::user(),
         ]);

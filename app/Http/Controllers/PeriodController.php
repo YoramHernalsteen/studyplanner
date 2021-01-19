@@ -18,7 +18,7 @@ class PeriodController extends Controller
     {
         return view('periods.index', [
             'user'=> Auth::user(),
-            'periods'=> Period::where('user_id', '=', Auth::id())->get(),
+            'periods'=> Period::where('user_id', '=', Auth::id())->orderBy('due_date', 'DESC')->get(),
 
         ]);
     }
@@ -84,21 +84,30 @@ class PeriodController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Period  $period
-     * @return \Illuminate\Http\Response
+     *
      */
     public function update(Request $request, Period $period)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:periods|max:190',
+            'due_date'=>'required|date',
+        ]);
+        $period->setName(request('name'));
+        $period->setDueDate(request('due_date'));
+        $period->save();
+        return redirect('/')->with('message', $period->getName() . ' was just updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Period  $period
-     * @return \Illuminate\Http\Response
+     *
      */
     public function destroy(Period $period)
     {
-        //
+        $name = $period->getName();
+        $period->delete();
+        return redirect('/')->with('message', $name . ' was deleted.');
     }
 }
