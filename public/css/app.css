@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css2?family=Raleway&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Quicksand&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Dosis&display=swap);
 @font-face {
   font-family: "bootstrap-icons";
   src: url(/fonts/vendor/bootstrap-icons/bootstrap-icons.woff?7d38a25801cfc2e01be2b90866edbbea) format("woff"),
@@ -11256,6 +11259,10 @@ h3 {
     border-color: #dee2e6;
   }
 }
+body {
+  font-family: "Raleway", sans-serif;
+}
+
 .cursor {
   cursor: pointer;
 }
