@@ -35,6 +35,30 @@ body{
     cursor: pointer;
 }
 
+.footerLinks:link{
+    text-decoration: none;
+    color:black;
+    cursor: pointer;
+    font-size: 1.25em;
+}
+.footerLinks:visited{
+    text-decoration: none;
+    color:black;
+    cursor: pointer;
+    font-size: 1.25em;
+}
+.footerLinks:visited:hover{
+    text-decoration: none;
+    color:lawngreen;
+    cursor: pointer;
+    font-size: 1.25em;
+}
+.footerLinks:hover{
+    text-decoration: none;
+    color:lawngreen;
+    cursor: pointer;
+    font-size: 1.25em;
+}
 //AUTH CSS
 .brand-wrapper {
     margin-bottom: 19px;

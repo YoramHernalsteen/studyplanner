@@ -33,13 +33,15 @@
     <div class="col-lg-6 offset-lg-3">
         <div class="row">
             <div class="col-4 text-center">
-                Portfolio
+                <p><a class="footerLinks" href="https://yoramhernalsteen.github.io/#/" target="_blank"><i class="bi bi-globe"></i></a></p>
             </div>
             <div class="col-4 text-center">
-                <i class="bi bi-github"></i>
+                <p><a class="footerLinks" href="https://github.com/YoramHernalsteen" target="_blank"><i class="bi bi-github"></i></a></p>
             </div>
+
             <div class="col-4 text-center">
-                <i class="bi bi-envelope"></i>
+                <p><a class="footerLinks" href="mailto:yoram.hernalsteen@gmail.com"><i class="bi bi-envelope"></i></a></p>
+
             </div>
         </div>
     </div>
