@@ -30,5 +30,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/courses/delete/{course}', [CourseController::class, 'destroy']);
     //CHAPTERS
     Route::post('/chapters/create/{course}', [ChapterController::class, 'store']);
+    Route::post('/chapters/edit/{chapter}', [ChapterController::class, 'update']);
+    Route::post('/chapters/delete/{chapter}', [ChapterController::class, 'destroy']);
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
 });

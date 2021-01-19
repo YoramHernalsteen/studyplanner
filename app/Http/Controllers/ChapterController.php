@@ -81,11 +81,18 @@ class ChapterController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Chapter  $chapter
-     * @return \Illuminate\Http\Response
+     *
      */
     public function update(Request $request, Chapter $chapter)
     {
-        //
+        $request->validate([
+            'name'=>'required|max:190',
+            'pages'=>'required|numeric|min:0'
+        ]);
+        $chapter->setPages(request('pages'));
+        $chapter->setName(request('name'));
+        $chapter->save();
+        return redirect('/courses/show/' . $chapter->course->id)->with('message', 'Chapter ' . $chapter->getName() . ' was updated.');
     }
 
     public function updateStatus(Request $request, Chapter $chapter)
@@ -112,6 +119,9 @@ class ChapterController extends Controller
      */
     public function destroy(Chapter $chapter)
     {
-        //
+        $courseID = $chapter->course->id;
+        $name = $chapter->getName();
+        $chapter->delete();
+        return redirect('/courses/show/' . $courseID)->with('message', $name . ' was deleted.');
     }
 }

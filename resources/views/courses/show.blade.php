@@ -172,4 +172,100 @@
             </div>
         </div>
     </div>
+    <!--EDIT CHAPTER -->
+    <div class="modal fade" id="editChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit chapter <span class="activeChapter"></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" id="chapterEditForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Title</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control chapterName @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="pages">Pages</label>
+                            <input type="numeric" name="pages" id="pages" min="0"
+                                   class="form-control chapterPages @error('pages') is-invalid @enderror" required
+                                   value="{{old('pages')}}">
+                            @error('pages')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- DELETE CHAPTER -->
+    <div class="modal fade" id="deleteChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete <span class="activeChapter"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" id="chapterDeleteForm">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete <span class="activeChapter"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--JAVASCRIPT -->
+    <script>
+        $(function () {
+            $(".edit_chapter").click(function () {
+                //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                let id = $(this).attr("id");
+                let name = document.getElementById(id).dataset['name'];
+                let action = document.getElementById(id).dataset['action'];
+                let pages = document.getElementById(id).dataset['pages'];
+                $('.activeChapter').text(name);
+                $('#chapterEditForm').attr('action', action);
+                $('.chapterName').val(name);
+                $('.chapterPages').val(pages);
+            });
+        });
+        $(function () {
+            $(".delete_chapter").click(function () {
+                //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                let id = $(this).attr("id");
+                let name = document.getElementById(id).dataset['name'];
+                let action = document.getElementById(id).dataset['action'];
+                $('.activeChapter').text(name);
+                $('#chapterDeleteForm').attr('action', action);
+            });
+        });
+    </script>
 @endsection
