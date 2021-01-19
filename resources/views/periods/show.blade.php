@@ -33,7 +33,7 @@
                         <div class="row mb-1 mx-1 "
                              style="border: black solid 1px; background-color: {{$course->randomColor()}}">
                             <div class="col-9">
-                                <h4>{{$course->getName()}} : {{$course->chapterCount()}}</h4>
+                                <h4>{{$course->getName()}}</h4>
                             </div>
                             <div class="col-3">
                                 <i class="bi bi-bookmark-plus cursor chapter_create" id="chapterCreate{{$course->id}}"
@@ -101,28 +101,31 @@
                         <div class="col-12">
                             <div class="row" >
                                 <div class="col-6" >Total tasks</div>
-                                <div class="col-6"></div>
+                                <div class="col-6">{{$period->getTotalChapters()}}</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Completed</div>
-                                <div class="col-6"></div>
+                                <div class="col-6">{{$period->getChaptersCompletedAbsolute()}}%</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Days left</div>
-                                <div class="col-6">15</div>
+                                <div class="col-6">{{$period->getDaysToDueDate()}}</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Due date</div>
-                                <div class="col-6">15</div>
+                                <div class="col-6">{{$period->getDueDate()}}</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Study rate</div>
-                                <div class="col-6">15</div>
+                                <div class="col-6">{{$period->studyRate()}}x expected rate</div>
                             </div>
                         </div>
                     </div>
                 </div>
             @else
+                <div class="col-12">
+                    <p>No courses added for {{$period->getName()}}, why don't you add some?</p>
+                </div>
             @endif
         </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h2>OVERVIEW</h2>
+                <h2>SEMESTER OVERVIEW</h2>
             </div>
         </div>
         @if ($errors->any())
@@ -21,18 +21,27 @@
             @endif
         </div>
         <div class="row">
-            <div class="col-12">
-                <p>Hey, {{$user->name}} <i class="bi bi-plus-square cursor" style="font-size: 2em" data-toggle="modal"
-                                           data-target="#newPeriodModal"></i></p>
+            <div class="col-8">
+                <p>Hey, {{$user->name}}!</p>
+            </div>
+            <div class="col-4">
+                <i class="bi bi-plus-square cursor" style="font-size: 2em" data-toggle="modal"
+                   data-target="#newPeriodModal"></i>
             </div>
         </div>
-        @foreach($periods as $period)
+        @forelse($periods as $period)
             <div class="row">
-                <div class="col-12">
-                    <a href="/periods/{{$period->id}}">{{$period->name}}</a>
+                <div class="col-12 p-2" style="border: solid black 1px">
+                    <a href="/periods/{{$period->id}}" style="text-decoration: none; color: black">{{$period->name}}</a>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="row">
+                <div class="col-12 p-2">
+                  <p>No semesters/trimesters/quarters added! Why don't you add some?</p>
+                </div>
+            </div>
+        @endforelse
     </div>
 
     <!--NEW COURSE MODAL -->
@@ -41,7 +50,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New course</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">New semester/trimester/quarter</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
