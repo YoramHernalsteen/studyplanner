@@ -85,7 +85,7 @@
                 <p style="font-size: 2em">Statistics</p>
             </div>
         </div>
-        <div class="row mx-1">
+        <div class="row">
             <div class="col-12">
                 <div class="row" >
                     <div class="col-6" >Total tasks</div>
