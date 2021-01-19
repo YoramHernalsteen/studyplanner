@@ -11267,6 +11267,30 @@ body {
   cursor: pointer;
 }
 
+.courseLink:link {
+  text-decoration: none;
+  color: black;
+}
+
+.courseLink:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.courseLink:visited:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.courseLink:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .brand-wrapper {
   margin-bottom: 19px;
 }

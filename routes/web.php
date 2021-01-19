@@ -23,8 +23,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/periods/create', [PeriodController::class,'store']);
     Route::post('/periods/edit/{period}', [PeriodController::class, 'update']);
     Route::post('/periods/delete/{period}', [PeriodController::class, 'destroy']);
-
     //COURSES
+    Route::get('/courses/show/{course}', [CourseController::class, 'show']);
     Route::post('/courses/create/{period}', [CourseController::class, 'store']);
     Route::post('/courses/edit/{course}', [CourseController::class, 'update']);
     Route::post('/courses/delete/{course}', [CourseController::class, 'destroy']);

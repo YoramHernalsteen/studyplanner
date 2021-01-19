@@ -21,6 +21,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
+            @yield('nav')
             {{--<li class="nav-item">
                 <a class="nav-link" href="/documentation">Documentation</a>
             </li>--}}

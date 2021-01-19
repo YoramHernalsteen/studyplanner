@@ -41,4 +41,43 @@ class Course extends Model
     public function period(){
         return $this->belongsTo(Period::class, 'period_id');
     }
+    public function getCompletedChaptersAbsolute(){
+        return $this->hasMany(Chapter::class)->where('status', '=', 'done')->count();
+    }
+    public function getCompletedChaptersAbsolutePercent(){
+        if($this->chapterCount()==0){
+            return 0;
+        }
+        return round(($this->getCompletedChaptersAbsolute()/$this->chapterCount())*100, 2);
+    }
+    public function getTotalPages(){
+        $pages =0;
+        foreach ($this->getChapters as $chapter){
+            $pages += $chapter->getPages();
+        }
+        return $pages;
+    }
+    public function getPagesCompleted(){
+        $pages =0;
+        foreach ($this->getChapters as $chapter){
+            if($chapter->getStatus()=== 'done'){
+                $pages += $chapter->getPages();
+            }
+        }
+        return $pages;
+    }
+
+    public function getPagesCompletedPercent(){
+        if($this->getTotalPages() == 0){
+            return 0;
+        }
+        return round(($this->getPagesCompleted()/$this->getTotalPages())*100 , 2);
+    }
+
+    public function studyRate(){
+        $completed = $this->getPagesCompletedPercent();
+        $daysPercentage = $this->period->daysCompleted();
+        return round(($completed/$daysPercentage),2);
+    }
+
 }

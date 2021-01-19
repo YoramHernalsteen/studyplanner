@@ -33,7 +33,10 @@
                         <div class="row mb-1 mx-1"
                              style="border: black solid 1px; border-radius: 15px; background-color: {{$course->randomColor()}}">
                             <div class="col-8 mt-1">
-                                <p  style="font-size: 1.25em">{{$course->getName()}}</p>
+                                <p>
+                                    <a href="/courses/show/{{$course->id}}" class="courseLink"  style="font-size: 1.25em;">{{$course->getName()}}</a>
+                                </p>
+
                             </div>
                             <div class="col-1 mt-1">
                                 <i class="bi bi-bookmark-plus align-middle cursor chapter_create" id="chapterCreate{{$course->id}}"

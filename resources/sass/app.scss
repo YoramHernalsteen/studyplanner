@@ -14,6 +14,27 @@ body{
 .cursor{
     cursor: pointer;
 }
+.courseLink:link{
+    text-decoration: none;
+    color: black;
+}
+.courseLink:visited{
+    text-decoration: none;
+    color: black;
+}
+.courseLink:visited:hover{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    cursor:pointer;
+}
+.courseLink:hover{
+    text-decoration: none;
+    color:black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 //AUTH CSS
 .brand-wrapper {
     margin-bottom: 19px;

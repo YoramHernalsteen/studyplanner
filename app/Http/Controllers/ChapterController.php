@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\returnArgument;
 
 class ChapterController extends Controller
 {
@@ -47,6 +48,9 @@ class ChapterController extends Controller
         $chapter->setName(request('name'));
         $chapter->setCourse($course->id);
         $chapter->save();
+        if(request('action_url')){
+            return redirect(request('action_url'))->with('message', 'New chapter ' . $chapter->getName() . ' added.');
+        }
         return redirect('/periods/' . $course->period->id)->with('message', 'New chapter added for: ' . $course->getName());
     }
 
@@ -89,9 +93,15 @@ class ChapterController extends Controller
         $request->validate([
             'status' => 'required|in:not-started,busy,done',
         ]);
+        if(request('action_url')){
+
+        }
         $chapter->setStatus(request('status'));
         $chapter->save();
         $course = $chapter->course;
+        if(request('action_url')){
+            return redirect(request('action_url'))->with('message', 'Status for ' . $chapter->getName() . ' set to ' . $chapter->getStatus());
+        }
         return redirect('/periods/' . $course->period->id)->with('message', 'Status for ' . $chapter->getName() . ' set to ' . $chapter->getStatus());
     }
     /**
