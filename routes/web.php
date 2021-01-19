@@ -26,6 +26,8 @@ Route::group(['middleware'=>'auth'], function(){
 
     //COURSES
     Route::post('/courses/create/{period}', [CourseController::class, 'store']);
+    Route::post('/courses/edit/{course}', [CourseController::class, 'update']);
+    Route::post('/courses/delete/{course}', [CourseController::class, 'destroy']);
     //CHAPTERS
     Route::post('/chapters/create/{course}', [ChapterController::class, 'store']);
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);

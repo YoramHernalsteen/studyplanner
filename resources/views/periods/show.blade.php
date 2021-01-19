@@ -30,16 +30,22 @@
             @if(collect($courses)->isNotEmpty())
                 @foreach($courses as $course)
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
-                        <div class="row mb-1 mx-1 "
-                             style="border: black solid 1px; background-color: {{$course->randomColor()}}">
-                            <div class="col-9">
-                                <h4>{{$course->getName()}}</h4>
+                        <div class="row mb-1 mx-1"
+                             style="border: black solid 1px; border-radius: 15px; background-color: {{$course->randomColor()}}">
+                            <div class="col-8 mt-1">
+                                <p  style="font-size: 1.25em">{{$course->getName()}}</p>
                             </div>
-                            <div class="col-3">
-                                <i class="bi bi-bookmark-plus cursor chapter_create" id="chapterCreate{{$course->id}}"
-                                   style="font-size: 1.75em" data-toggle="modal" data-target="#newChapterModal"
+                            <div class="col-1 mt-1">
+                                <i class="bi bi-bookmark-plus align-middle cursor chapter_create" id="chapterCreate{{$course->id}}"
+                                   style="font-size: 1.25em" data-toggle="modal" data-target="#newChapterModal"
                                    data-course="{{$course->getName()}}"
                                    data-action="/chapters/create/{{$course->id}}"></i>
+                            </div>
+                            <div class="col-1 mt-1">
+                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" style="font-size: 1.25em"></i>
+                            </div>
+                            <div class="col-1 mt-1">
+                                <i class="bi bi-x-circle cursor delete_course" data-toggle="modal" id="CRSDEL{{$course->id}}" data-target="#deleteCourseModal" data-name="{{$course->getName()}}" data-action="/courses/delete/{{$course->id}}" style="font-size: 1.25em"></i>
                             </div>
                         </div>
                         @if(collect($course->getChapters)->isNotEmpty())
@@ -92,9 +98,9 @@
             <!--STATS -->
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                     <div class="row mb-1 mx-1 "
-                         style="border: black solid 1px; background-color:red;color: white">
+                         style="border: black solid 1px; background-color:#3340a3;color: white; border-radius: 15px">
                         <div class="col-12">
-                            <h4>STATISTICS</h4>
+                            <p class="mt-1 text-center" style="font-size: 1.25em">Statistics</p>
                         </div>
                     </div>
                     <div class="row mx-1">
@@ -175,6 +181,75 @@
             </div>
         </div>
     </div>
+    <!--EDIT COURSE MODAL -->
+    <div class="modal fade" id="editCourseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit <span class="activeCourse"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" id="courseEditForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Title</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control editNameCourse @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="exam_form">Exam form</label>
+                            <input type="text" name="exam_form" id="exam_form"
+                                   class="form-control editExamFormCourse @error('exam_form') is-invalid @enderror" required
+                                   value="{{old('exam_form')}}">
+                            @error('exam_form')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- DELETE COURSE MODAL-->
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete <span class="activeCourse"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="" id="courseDeleteForm">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete <span class="activeCourse"></span>? All chapters that belong to <span class="activeCourse"></span> will get destroyed too.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- NEW CHAPTER -->
     <div class="modal fade" id="newChapterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
@@ -222,17 +297,41 @@
         </div>
     </div>
 
+
     <!--JAVASCRIPT -->
     <script>
         $(function () {
             $(".chapter_create").click(function () {
-                console.log("yessss");
                 //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
                 let id = $(this).attr("id");
                 let name = document.getElementById(id).dataset['course'];
                 let action = document.getElementById(id).dataset['action'];
                 $('.activeCourse').text(name);
                 $('#chapterCreateForm').attr('action', action);
+            });
+        });
+        $(function () {
+            $(".edit_course").click(function () {
+                //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                let id = $(this).attr("id");
+                let name = document.getElementById(id).dataset['name'];
+                let action = document.getElementById(id).dataset['action'];
+                let exam = document.getElementById(id).dataset['exam'];
+                $('.activeCourse').text(name);
+                $('#courseEditForm').attr('action', action);
+                $('.editNameCourse').val(name);
+                $('.editExamFormCourse').val(exam);
+            });
+        });
+        $(function () {
+            $(".delete_course").click(function () {
+                console.log("yessss");
+                //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
+                let id = $(this).attr("id");
+                let name = document.getElementById(id).dataset['name'];
+                let action = document.getElementById(id).dataset['action'];
+                $('.activeCourse').text(name);
+                $('#courseDeleteForm').attr('action', action);
             });
         });
 

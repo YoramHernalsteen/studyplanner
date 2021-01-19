@@ -77,21 +77,31 @@ class CourseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
+     *
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:courses|max:190',
+            'exam_form'=>'required|max:190',
+        ]);
+        $course->setName(request('name'));
+        $course->setExamForm(request('exam_form'));
+        $course->save();
+        return redirect('/periods/' . $course->period->id)->with('message', $course->getName() . ' was updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
+     *
      */
     public function destroy(Course $course)
     {
-        //
+        $name = $course->getName();
+        $period = $course->period->id;
+        $course->delete();
+        return redirect('/periods/' . $period)->with('message',$name . ' was deleted.');
     }
 }
