@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,10 +16,6 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return view('courses.index', [
-            'user'=> Auth::user(),
-            'courses'=> Course::where('user_id', '=', Auth::id())->get()
-        ]);
     }
 
     /**
@@ -34,10 +31,11 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Period $period
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, Period $period)
     {
         $request->validate([
             'name' => 'required|unique:courses|max:190',
@@ -45,10 +43,10 @@ class CourseController extends Controller
         ]);
         $course = new Course();
         $course->setName(request('name'));
-        $course->setUserId(Auth::id());
+        $course->period_id = $period->id;
         $course->setExamForm(request('exam_form'));
         $course->save();
-        return redirect('/')->with('message', 'new course: ' . $course->getName());
+        return redirect('/periods/' . $period->id)->with('message', 'new course: ' . $course->getName());
 
     }
 

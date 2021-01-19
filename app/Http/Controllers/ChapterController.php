@@ -31,9 +31,9 @@ class ChapterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     *
      * @param Course $course
-     * @return void
+     *
      */
     public function store(Request $request, Course $course)
     {
@@ -47,7 +47,7 @@ class ChapterController extends Controller
         $chapter->setName(request('name'));
         $chapter->setCourse($course->id);
         $chapter->save();
-        return redirect('/')->with('message', 'New chapter added for ' . $course->getName() . '.');
+        return redirect('/periods/' . $course->period->id)->with('message', 'New chapter added for: ' . $course->getName());
     }
 
     /**
@@ -91,7 +91,8 @@ class ChapterController extends Controller
         ]);
         $chapter->setStatus(request('status'));
         $chapter->save();
-        return redirect('/')->with('message', 'Status for ' . $chapter->getName() . ' set to ' . $chapter->getStatus());
+        $course = $chapter->course;
+        return redirect('/periods/' . $course->period->id)->with('message', 'Status for ' . $chapter->getName() . ' set to ' . $chapter->getStatus());
     }
     /**
      * Remove the specified resource from storage.

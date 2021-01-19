@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ChapterController;
 
@@ -16,9 +17,12 @@ use App\Http\Controllers\ChapterController;
 */
 
 Route::group(['middleware'=>'auth'], function(){
+    //PERIODS
+    Route::get('/', [PeriodController::class, 'index']);
+    Route::get('/periods/{period}', [PeriodController::class, 'show']);
+    Route::post('/periods/create', [PeriodController::class,'store']);
     //COURSES
-    Route::get('/', [CourseController::class, 'index']);
-    Route::post('/courses/create', [CourseController::class, 'store']);
+    Route::post('/courses/create/{period}', [CourseController::class, 'store']);
     //CHAPTERS
     Route::post('/chapters/create/{course}', [ChapterController::class, 'store']);
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
