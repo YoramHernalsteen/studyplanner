@@ -5,7 +5,7 @@
     </li>
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-12 text-center">
                 <p style="font-size: 2em">{{$course->name}}</p>
@@ -120,6 +120,11 @@
         <div class="row mt-1">
             <div class="col-12">
                 <p style="font-size: 2em">Extra info</p>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-12">
+                <p style="font-size: 1em">Exam is: {{$course->getExamForm()}}</p>
             </div>
         </div>
     </div>
