@@ -38,24 +38,23 @@
                                 </p>
 
                             </div>
-                            <div class="col-1 mt-1">
+                            <div class="col-4 mt-1">
                                 <i class="bi bi-bookmark-plus align-middle cursor chapter_create" id="chapterCreate{{$course->id}}"
-                                   style="font-size: 1.25em" data-toggle="modal" data-target="#newChapterModal"
+                                   style="font-size: 1.1em" data-toggle="modal" data-target="#newChapterModal"
                                    data-course="{{$course->getName()}}"
                                    data-action="/chapters/create/{{$course->id}}"></i>
-                            </div>
-                            <div class="col-1 mt-1">
-                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" style="font-size: 1.25em"></i>
-                            </div>
-                            <div class="col-1 mt-1">
-                                <i class="bi bi-x-circle cursor delete_course" data-toggle="modal" id="CRSDEL{{$course->id}}" data-target="#deleteCourseModal" data-name="{{$course->getName()}}" data-action="/courses/delete/{{$course->id}}" style="font-size: 1.25em"></i>
+                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" style="font-size: 1.10em"></i>
+                                <i class="bi bi-x-circle cursor delete_course" data-toggle="modal"
+                                   id="CRSDEL{{$course->id}}" data-target="#deleteCourseModal"
+                                   data-name="{{$course->getName()}}" data-action="/courses/delete/{{$course->id}}"
+                                   style="font-size: 1.1em"></i>
                             </div>
                         </div>
                         @if(collect($course->getChapters)->isNotEmpty())
                             <div class="row mx-1">
                                 <div class="col-12">
                                     @foreach($course->getChapters as $chapter)
-                                        <div class="row" style="height: 1.6em">
+                                        <div class="row">
                                             <div class="col-6" style="font-size: 0.75em">{{$chapter->getName()}}</div>
                                             <div class="col-6">
                                                 <form method="post" action="/chapters/change-status/{{$chapter->id}}">

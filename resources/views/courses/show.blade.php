@@ -37,8 +37,8 @@
             </div>
         </div>
         @foreach($course->getChapters as $chapter)
-        <div class="row" style="height: 2em">
-            <div class="col-6" style="font-size: 1.25em">{{$chapter->getName()}}</div>
+        <div class="row">
+            <div class="col-5" style="font-size: 1em">{{$chapter->getName()}}, {{$chapter->getPages()}}p</div>
             <div class="col-4">
                 <form method="post" action="/chapters/change-status/{{$chapter->id}}">
                     @csrf
@@ -47,7 +47,7 @@
                         <div class="form-group btn-group btn-group-toggle col-12"
                              onchange="this.form.submit()" data-toggle="buttons">
                             <label class="col-4 btn btn-outline-danger "
-                                   style="font-size: 0.75em">
+                                   style="font-size: 0.65em">
                                 <input type="radio" name="status"
                                        onchange="this.form.submit()" id="option1"
                                        autocomplete="off" value="not-started"
@@ -55,7 +55,7 @@
                                 <i class="bi bi-square"></i>
                             </label>
                             <label class="col-4 btn btn-outline-warning"
-                                   style="font-size: 0.75em">
+                                   style="font-size: 0.65em">
                                 <input type="radio" name="status"
                                        onchange="this.form.submit()" id="option2"
                                        autocomplete="off" value="busy"
@@ -63,7 +63,7 @@
                                 <i class="bi bi-square-half"></i>
                             </label>
                             <label class="col-4 btn btn-outline-success"
-                                   style="font-size: 0.75em">
+                                   style="font-size: 0.65em">
                                 <input type="radio" name="status"
                                        onchange="this.form.submit()" id="option3"
                                        autocomplete="off" value="done"
@@ -74,11 +74,9 @@
                     </div>
                 </form>
             </div>
-            <div class="col-1">
-                <i class="bi bi-pencil cursor edit_chapter" id="CHPT{{$chapter->id}}" data-toggle="modal" data-target="#editChapterModal"  data-name="{{$chapter->getName()}}" data-action="/chapters/edit/{{$chapter->id}}" data-pages="{{$chapter->getPages()}}" style="font-size: 1.25em"></i>
-            </div>
-            <div class="col-1">
-                <i class="bi bi-x-circle cursor delete_chapter" data-toggle="modal" id="CHPTDEL{{$chapter->id}}" data-target="#deleteChapterModal" data-name="{{$chapter->getName()}}" data-action="/chapters/delete/{{$chapter->id}}" style="font-size: 1.25em"></i>
+            <div class="col-3">
+                <i class="bi bi-pencil cursor edit_chapter" id="CHPT{{$chapter->id}}" data-toggle="modal" data-target="#editChapterModal"  data-name="{{$chapter->getName()}}" data-action="/chapters/edit/{{$chapter->id}}" data-pages="{{$chapter->getPages()}}" style="font-size: 1em"></i>
+                <i class="bi bi-x-circle cursor delete_chapter" data-toggle="modal" id="CHPTDEL{{$chapter->id}}" data-target="#deleteChapterModal" data-name="{{$chapter->getName()}}" data-action="/chapters/delete/{{$chapter->id}}" style="font-size: 1em"></i>
             </div>
         </div>
         @endforeach
