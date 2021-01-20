@@ -54,6 +54,13 @@ class Period extends Model
         }
         return $total;
     }
+    public function getTotalChaptersRelative(){
+        $total = 0;
+        foreach ($this->courses as $course){
+            $total += ($course->chapterCount() * $course->getDifficulty());
+        }
+        return $total;
+    }
     public function getChaptersCompletedAbsolute(){
         $total = 0;
         if($this->courses == null || $this->getTotalChapters() == 0){
@@ -68,6 +75,63 @@ class Period extends Model
         }
         return round(($total/$this->getTotalChapters())*100, 2);
     }
+    public function getChaptersCompletedRelative(){
+        $total = 0;
+        if($this->courses == null || $this->getTotalChapters() == 0){
+            return 0;
+        }
+        foreach ($this->courses as $course){
+            foreach ($course->getChapters as $chapter){
+                if($chapter->getStatus() === 'done'){
+                    $total += (1 * $course->getDifficulty() );
+                }
+            }
+        }
+        return round(($total/$this->getTotalChaptersRelative())*100, 2);
+    }
+    public function getTotalPages(){
+        $total = 0;
+        foreach ($this->courses as $course){
+            $total += $course->getTotalPages();
+        }
+        return $total;
+    }
+    public function getTotalPagesRelative(){
+        $total = 0;
+        foreach ($this->courses as $course){
+            $total += ($course->getTotalPages() * $course->getDifficulty());
+        }
+        return $total;
+    }
+    public function getPagesCompletedAbsolute(){
+        $total = 0;
+        if($this->courses == null || $this->getTotalPages() == 0){
+            return 0;
+        }
+        foreach ($this->courses as $course){
+            foreach ($course->getChapters as $chapter){
+                if($chapter->getStatus() === 'done'){
+                    $total += $chapter->getPages();
+                }
+            }
+        }
+        return round(($total/$this->getTotalPages())*100, 2);
+    }
+    public function getPagesCompletedRelative(){
+        $total = 0;
+        if($this->courses == null || $this->getTotalPages() == 0){
+            return 0;
+        }
+        foreach ($this->courses as $course){
+            foreach ($course->getChapters as $chapter){
+                if($chapter->getStatus() === 'done'){
+                    $total += ($chapter->getPages() * $course->getDifficulty());
+                }
+            }
+        }
+        return round(($total/$this->getTotalPagesRelative())*100, 2);
+    }
+
     public function daysCompleted(){
         $days = $this->getDaysBetweenStartAndDueDate() > 0 ? $this->getDaysBetweenStartAndDueDate() : 1;
         $daysLeft = $this->getDaysBetweenStartAndNow() > 0 ? $this->getDaysBetweenStartAndNow() : 1;
@@ -75,9 +139,15 @@ class Period extends Model
     }
 
     public function studyRate(){
-        $completed = $this->getChaptersCompletedAbsolute();
+        $completed = $this->getPagesCompletedAbsolute();
         $daysPercentage = $this->daysCompleted();
         return round(($completed/$daysPercentage),2);
     }
+    public function studyRateRelative(){
+        $completed = $this->getPagesCompletedRelative();
+        $daysPercentage = $this->daysCompleted();
+        return round(($completed/$daysPercentage),2);
+    }
+
 
 }

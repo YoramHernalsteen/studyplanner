@@ -1,6 +1,6 @@
 @extends('layout.authenticated')
 @section('content')
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-12 text-center">
                 <h2>OVERVIEW FOR {{$period->getName()}}</h2>
@@ -55,7 +55,7 @@
                                 <div class="col-12">
                                     @foreach($course->getChapters as $chapter)
                                         <div class="row">
-                                            <div class="col-6" style="font-size: 0.75em">{{$chapter->getName()}}</div>
+                                            <div class="col-6" style="font-size: 0.75em">{{$chapter->getName()}},{{$chapter->getPages()}}p</div>
                                             <div class="col-6">
                                                 <form method="post" action="/chapters/change-status/{{$chapter->id}}">
                                                     @csrf
@@ -98,7 +98,7 @@
                     </div>
                 @endforeach
             <!--STATS -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                     <div class="row mb-1 mx-1 "
                          style="border: black solid 1px; background-color:#3340a3;color: white; border-radius: 15px">
                         <div class="col-12">
@@ -108,12 +108,28 @@
                     <div class="row mx-1">
                         <div class="col-12">
                             <div class="row" >
-                                <div class="col-6" >Total tasks</div>
+                                <div class="col-6" >Total chapters</div>
                                 <div class="col-6">{{$period->getTotalChapters()}}</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Completed</div>
                                 <div class="col-6">{{$period->getChaptersCompletedAbsolute()}}%</div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" >Completed (relative)</div>
+                                <div class="col-6">{{$period->getChaptersCompletedRelative()}}%</div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" >Total pages</div>
+                                <div class="col-6">{{$period->getTotalPages()}}</div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" >Completed</div>
+                                <div class="col-6">{{$period->getPagesCompletedAbsolute()}}%</div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" >Completed (relative)</div>
+                                <div class="col-6">{{$period->getPagesCompletedRelative()}}%</div>
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Days left</div>
@@ -125,7 +141,11 @@
                             </div>
                             <div class="row" >
                                 <div class="col-6" >Study rate</div>
-                                <div class="col-6">{{$period->studyRate()}}x expected rate</div>
+                                <div class="col-6">{{$period->studyRate()}}x expected</div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-6" >Study rate (relative)</div>
+                                <div class="col-6">{{$period->studyRateRelative()}}x expected</div>
                             </div>
                         </div>
                     </div>

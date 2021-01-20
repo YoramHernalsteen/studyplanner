@@ -88,7 +88,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="row" >
-                    <div class="col-6" >Total tasks</div>
+                    <div class="col-6" >Total chapters</div>
                     <div class="col-6">{{$course->chapterCount()}}</div>
                 </div>
                 <div class="row" >
