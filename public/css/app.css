@@ -11267,6 +11267,34 @@ body {
   cursor: pointer;
 }
 
+.semLink:link {
+  text-decoration: none;
+  color: black;
+  font-size: 1.5em;
+}
+
+.semLink:visited {
+  text-decoration: none;
+  color: black;
+  font-size: 1.5em;
+}
+
+.semLink:visited:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.semLink:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
 .courseLink:link {
   text-decoration: none;
   color: black;

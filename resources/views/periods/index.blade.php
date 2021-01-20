@@ -32,7 +32,7 @@
         @forelse($periods as $period)
             <div class="row p-2 mb-2" style="border: solid black 1px; border-radius: 15px">
                 <div class="col-8">
-                    <a href="/periods/{{$period->id}}" style="text-decoration: none; color: black; font-size: 1.5em">{{$period->name}}</a>
+                    <a href="/periods/{{$period->id}}" class="semLink">{{$period->name}}</a>
                 </div>
                 <div class="col-2">
                     <i class="bi bi-pencil cursor edit_period" id="PER{{$period->id}}" data-toggle="modal" data-target="#editPeriodModal" data-date="{{$period->due_date}}" data-name="{{$period->getName()}}" data-action="/periods/edit/{{$period->id}}" style="font-size: 1.5em"></i>

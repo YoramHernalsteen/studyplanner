@@ -42,7 +42,7 @@ class PeriodController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:periods|max:190',
+            'name' => 'required|max:15|unique:periods,name,NULL,id,user_id,' . Auth::id(),
             'due_date'=>'required|date',
         ]);
         $period = new Period();
@@ -91,10 +91,18 @@ class PeriodController extends Controller
      */
     public function update(Request $request, Period $period)
     {
-        $request->validate([
-            'name' => 'required|unique:periods|max:190',
-            'due_date'=>'required|date',
-        ]);
+        if(request('name')=== $period->getName()){
+            $request->validate([
+                'name' => 'required|max:190',
+                'due_date'=>'required|date',
+            ]);
+        }else{
+            $request->validate([
+                'name' => 'required|unique:periods,name,NULL,id,user_id,' . Auth::id(). '|max:190',
+                'due_date'=>'required|date',
+            ]);
+        }
+
         $period->setName(request('name'));
         $period->setDueDate(request('due_date'));
         $period->save();
