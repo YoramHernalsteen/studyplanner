@@ -1,7 +1,7 @@
 @extends('layout.authenticated')
 @section('nav')
     <li class="nav-item">
-        <a class="nav-link" href="/periods/{{$course->period->id}}">{{$course->period->name}}</a>
+        <a class="nav-link" href="/periods/1">HEY</a>
     </li>
 @endsection
 @section('content')

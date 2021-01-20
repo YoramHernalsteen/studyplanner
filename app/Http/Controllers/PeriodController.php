@@ -61,14 +61,18 @@ class PeriodController extends Controller
      */
     public function show(Period $period)
     {
-        $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#A0C4FF','#BDB2FF', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
-        return view('periods.show', [
-            'user'=> Auth::user(),
-            'courses'=> $period->courses,
-            'period'=> $period,
-            'colors'=>$colors,
+        if ( $period->user_id == Auth::id() ) {
+            $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#A0C4FF','#BDB2FF', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
+            return view('periods.show', [
+                'user'=> Auth::user(),
+                'courses'=> $period->courses,
+                'period'=> $period,
+                'colors'=>$colors,
 
-        ]);
+            ]);
+        }
+        abort(403);
+
     }
 
     /**
@@ -91,22 +95,26 @@ class PeriodController extends Controller
      */
     public function update(Request $request, Period $period)
     {
-        if(request('name')=== $period->getName()){
-            $request->validate([
-                'name' => 'required|max:190',
-                'due_date'=>'required|date',
-            ]);
-        }else{
-            $request->validate([
-                'name' => 'required|unique:periods,name,NULL,id,user_id,' . Auth::id(). '|max:190',
-                'due_date'=>'required|date',
-            ]);
-        }
+        if ( $period->user_id == Auth::id()) {
+            if(request('name')=== $period->getName()){
+                $request->validate([
+                    'name' => 'required|max:190',
+                    'due_date'=>'required|date',
+                ]);
+            }else{
+                $request->validate([
+                    'name' => 'required|unique:periods,name,NULL,id,user_id,' . Auth::id(). '|max:190',
+                    'due_date'=>'required|date',
+                ]);
+            }
 
-        $period->setName(request('name'));
-        $period->setDueDate(request('due_date'));
-        $period->save();
-        return redirect('/')->with('message', $period->getName() . ' was just updated.');
+            $period->setName(request('name'));
+            $period->setDueDate(request('due_date'));
+            $period->save();
+            return redirect('/')->with('message', $period->getName() . ' was just updated.');
+        }
+        abort(403);
+
     }
 
     /**
@@ -117,8 +125,12 @@ class PeriodController extends Controller
      */
     public function destroy(Period $period)
     {
-        $name = $period->getName();
-        $period->delete();
-        return redirect('/')->with('message', $name . ' was deleted.');
+        if ( $period->user_id == Auth::id() ) {
+            $name = $period->getName();
+            $period->delete();
+            return redirect('/')->with('message', $name . ' was deleted.');
+        }
+        abort(403);
+
     }
 }

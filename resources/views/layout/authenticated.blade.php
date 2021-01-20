@@ -19,12 +19,22 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav float-right">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">home</a>
             </li>
             @yield('nav')
             {{--<li class="nav-item">
                 <a class="nav-link" href="/documentation">Documentation</a>
             </li>--}}
+            <li class="nav-item">
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                   class="nav-link">
+                    logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                </form>
+            </li>
         </ul>
     </div>
 </nav>
