@@ -39,7 +39,7 @@ class ChapterController extends Controller
     public function store(Request $request, Course $course)
     {
         $request->validate([
-            'name'=>'required|max:190',
+            'name'=>'required|max:15',
             'pages'=>'required|numeric|min:0'
         ]);
         $chapter = new Chapter();
@@ -86,7 +86,7 @@ class ChapterController extends Controller
     public function update(Request $request, Chapter $chapter)
     {
         $request->validate([
-            'name'=>'required|max:190',
+            'name'=>'required|max:15',
             'pages'=>'required|numeric|min:0'
         ]);
         $chapter->setPages(request('pages'));

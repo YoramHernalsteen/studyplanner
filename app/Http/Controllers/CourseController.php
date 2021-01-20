@@ -38,9 +38,9 @@ class CourseController extends Controller
     public function store(Request $request, Period $period)
     {
         $request->validate([
-            'name' => 'required|unique:courses|max:190',
+            'name' => 'required|unique:courses|max:15',
             'exam_form'=>'required|max:190',
-            'difficulty'=>'required|max:190|in:easy,normal,hard',
+            'difficulty'=>'required|max:10|in:easy,normal,hard',
         ]);
         $course = new Course();
         $course->setName(request('name'));
@@ -94,17 +94,17 @@ class CourseController extends Controller
     {
         if($course->getName() == request('name')){
             $request->validate([
-                'name' => 'required|max:190',
+                'name' => 'required|max:15',
                 'exam_form'=>'required|max:190',
-                'color'=>'required|max:190',
-                'difficulty'=>'required|max:190|in:easy,normal,hard',
+                'color'=>'required|max:15',
+                'difficulty'=>'required|max:15|in:easy,normal,hard',
             ]);
         } else{
             $request->validate([
-                'name' => 'required|unique:courses|max:190',
+                'name' => 'required|unique:courses|max:15',
                 'exam_form'=>'required|max:190',
-                'color'=>'required|max:190',
-                'difficulty'=>'required|max:190|in:easy,normal,hard',
+                'color'=>'required|max:15',
+                'difficulty'=>'required|max:15|in:easy,normal,hard',
             ]);
         }
 

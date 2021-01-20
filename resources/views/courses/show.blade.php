@@ -126,8 +126,8 @@
                 <p style="font-size: 2em">Extra info</p>
             </div>
         </div>
-        <div class="row mt-1">
-            <div class="col-12">
+        <div class="row mt-1 mb-5">
+            <div class="col-12 mb-5">
                 <p style="font-size: 1em">Exam is: {{$course->getExamForm()}}</p>
             </div>
         </div>
