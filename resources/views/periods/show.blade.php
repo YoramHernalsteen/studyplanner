@@ -39,12 +39,12 @@
 
                             </div>
                             <div class="col-4 mt-1">
-                                <i class="bi bi-bookmark-plus align-middle cursor chapter_create" id="chapterCreate{{$course->id}}"
+                                <i class="bi bi-plus-circle align-middle cursor chapter_create" id="chapterCreate{{$course->id}}"
                                    style="font-size: 1.1em" data-toggle="modal" data-target="#newChapterModal"
                                    data-course="{{$course->getName()}}"
                                    data-action="/chapters/create/{{$course->id}}"></i>
-                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" data-color="{{$course->getColor()}}" data-difficulty="D{{$course->getDifficulty()}}" style="font-size: 1.10em"></i>
-                                <i class="bi bi-x-circle cursor delete_course" data-toggle="modal"
+                                <i class="bi bi-pencil align-middle cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" data-color="{{$course->getColor()}}" data-difficulty="D{{$course->getDifficulty()}}" style="font-size: 1.10em"></i>
+                                <i class="bi bi-x-circle align-middle cursor delete_course" data-toggle="modal"
                                    id="CRSDEL{{$course->id}}" data-target="#deleteCourseModal"
                                    data-name="{{$course->getName()}}" data-action="/courses/delete/{{$course->id}}"
                                    style="font-size: 1.1em"></i>
