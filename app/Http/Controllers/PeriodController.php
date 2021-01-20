@@ -61,10 +61,13 @@ class PeriodController extends Controller
      */
     public function show(Period $period)
     {
+        $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#A0C4FF','#BDB2FF', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
         return view('periods.show', [
             'user'=> Auth::user(),
             'courses'=> $period->courses,
-            'period'=> $period
+            'period'=> $period,
+            'colors'=>$colors,
+
         ]);
     }
 

@@ -31,7 +31,7 @@
                 @foreach($courses as $course)
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                         <div class="row mb-1 mx-1"
-                             style="border: black solid 1px; border-radius: 15px; background-color: {{$course->randomColor()}}">
+                             style="border: black solid 1px; border-radius: 15px; background-color: {{$course->getColor()}}">
                             <div class="col-8 mt-1">
                                 <p>
                                     <a href="/courses/show/{{$course->id}}" class="courseLink"  style="font-size: 1.25em;">{{$course->getName()}}</a>
@@ -43,7 +43,7 @@
                                    style="font-size: 1.1em" data-toggle="modal" data-target="#newChapterModal"
                                    data-course="{{$course->getName()}}"
                                    data-action="/chapters/create/{{$course->id}}"></i>
-                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" style="font-size: 1.10em"></i>
+                                <i class="bi bi-pencil cursor edit_course" id="CRS{{$course->id}}" data-toggle="modal" data-target="#editCourseModal"  data-name="{{$course->getName()}}" data-action="/courses/edit/{{$course->id}}" data-exam="{{$course->getExamForm()}}" data-color="{{$course->getColor()}}" data-difficulty="D{{$course->getDifficulty()}}" style="font-size: 1.10em"></i>
                                 <i class="bi bi-x-circle cursor delete_course" data-toggle="modal"
                                    id="CRSDEL{{$course->id}}" data-target="#deleteCourseModal"
                                    data-name="{{$course->getName()}}" data-action="/courses/delete/{{$course->id}}"
@@ -174,6 +174,27 @@
                             </p>
                             @enderror
                         </div>
+                        <div class="form-group btn-group btn-group-toggle col-12"
+                             data-toggle="buttons">
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="D0.75"
+                                       autocomplete="off" value="easy">
+                                Easy
+                            </label>
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="D1"
+                                       autocomplete="off" value="normal">
+                               Normal
+                            </label>
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="D1.25"
+                                       autocomplete="off" value="hard">
+                                Hard
+                            </label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -218,6 +239,40 @@
                                 <strong>{{ $message }}</strong>
                             </p>
                             @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="color">Color</label>
+                            <select name="color" id="color" class="form-control editColorCourse  @error('color') is-invalid @enderror" required>
+                                @foreach($colors as $color)
+                                    <option value="{{$color}}" style="background-color: {{$color}}">{{$color}}</option>
+                                @endforeach
+                            </select>
+                            @error('color')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group btn-group btn-group-toggle col-12"
+                             data-toggle="buttons">
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="Deasy"
+                                       autocomplete="off" value="easy">
+                                Easy
+                            </label>
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="Dnormal"
+                                       autocomplete="off" value="normal">
+                                Normal
+                            </label>
+                            <label class="col-4 btn btn-outline-dark">
+                                <input type="radio" name="difficulty"
+                                       id="Dhard"
+                                       autocomplete="off" value="hard">
+                                Hard
+                            </label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -319,10 +374,23 @@
                 let name = document.getElementById(id).dataset['name'];
                 let action = document.getElementById(id).dataset['action'];
                 let exam = document.getElementById(id).dataset['exam'];
+                let color = document.getElementById(id).dataset['color'];
+                let difficulty = document.getElementById(id).dataset['difficulty'];
+                if(difficulty==='D0.75'){
+                    document.getElementById("Deasy").click();
+                    console.log("easy");
+                } else if(difficulty === 'D1'){
+                    document.getElementById("Dnormal").click();
+                    console.log("not easy");
+                } else{
+                    document.getElementById("Dhard").click();
+                    console.log("hard");
+                }
                 $('.activeCourse').text(name);
                 $('#courseEditForm').attr('action', action);
                 $('.editNameCourse').val(name);
                 $('.editExamFormCourse').val(exam);
+                $('.editColorCourse').val(color);
             });
         });
         $(function () {

@@ -32,8 +32,28 @@ class Course extends Model
         return $this->hasMany(Chapter::class);
     }
     public function randomColor(){
-        $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
+        $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#A0C4FF','#BDB2FF', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
         return $colors[rand(0, count($colors)-1)];
+    }
+    public function getColor(){
+        return $this->color_scheme;
+    }
+    public function setColor($color){
+        $this->color_scheme = $color;
+    }
+    public function getDifficulty(){
+        return $this->difficulty_index;
+    }
+    public function getDifficultyString(){
+        if($this->getDifficulty() == 0.75){
+            return "easy";
+        } else if($this->getDifficulty() == 1){
+            return "normal";
+        }
+        return "hard";
+    }
+    public function setDifficulty($difficulty){
+        $this->difficulty_index = $difficulty;
     }
     public function chapterCount(){
         return $this->getChapters->count();

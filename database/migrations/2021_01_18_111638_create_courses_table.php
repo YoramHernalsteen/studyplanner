@@ -18,6 +18,8 @@ class CreateCoursesTable extends Migration
             $table->foreignId('period_id');
             $table->string('name');
             $table->string('exam_form');
+            $table->string('color_scheme');
+            $table->double('difficulty_index');
             $table->timestamps();
             $table->foreign('period_id')->references('id')->on('periods')->onDelete('cascade');
         });

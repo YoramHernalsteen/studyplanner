@@ -8,7 +8,7 @@
     <div class="container mb-5">
         <div class="row">
             <div class="col-12 text-center">
-                <p style="font-size: 2em">{{$course->name}}</p>
+                <p style="font-size: 2em; background-color: {{$course->getColor()}}; border-radius: 15px">{{$course->name}}</p>
             </div>
         </div>
         @if ($errors->any())
@@ -114,6 +114,10 @@
                 <div class="row" >
                     <div class="col-6" >Study rate</div>
                     <div class="col-6">{{$course->studyRate()}}x expected rate</div>
+                </div>
+                <div class="row" >
+                    <div class="col-6" >Difficulty</div>
+                    <div class="col-6">{{$course->getDifficultyString()}}</div>
                 </div>
             </div>
         </div>

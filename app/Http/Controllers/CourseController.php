@@ -40,11 +40,20 @@ class CourseController extends Controller
         $request->validate([
             'name' => 'required|unique:courses|max:190',
             'exam_form'=>'required|max:190',
+            'difficulty'=>'required|max:190|in:easy,normal,hard',
         ]);
         $course = new Course();
         $course->setName(request('name'));
         $course->period_id = $period->id;
         $course->setExamForm(request('exam_form'));
+        $course->setColor($course->randomColor());
+        if(request('difficulty') === 'easy'){
+            $course->setDifficulty(0.75);
+        } else if(request('difficulty') === 'normal'){
+            $course->setDifficulty(1);
+        } else{
+            $course->setDifficulty(1.25);
+        }
         $course->save();
         return redirect('/periods/' . $period->id)->with('message', 'new course: ' . $course->getName());
 
@@ -83,12 +92,32 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        $request->validate([
-            'name' => 'required|unique:courses|max:190',
-            'exam_form'=>'required|max:190',
-        ]);
+        if($course->getName() == request('name')){
+            $request->validate([
+                'name' => 'required|max:190',
+                'exam_form'=>'required|max:190',
+                'color'=>'required|max:190',
+                'difficulty'=>'required|max:190|in:easy,normal,hard',
+            ]);
+        } else{
+            $request->validate([
+                'name' => 'required|unique:courses|max:190',
+                'exam_form'=>'required|max:190',
+                'color'=>'required|max:190',
+                'difficulty'=>'required|max:190|in:easy,normal,hard',
+            ]);
+        }
+
         $course->setName(request('name'));
         $course->setExamForm(request('exam_form'));
+        $course->setColor(request('color'));
+        if(request('difficulty') === 'easy'){
+            $course->setDifficulty(0.75);
+        } else if(request('difficulty') === 'normal'){
+            $course->setDifficulty(1);
+        } else{
+            $course->setDifficulty(1.25);
+        }
         $course->save();
         return redirect('/periods/' . $course->period->id)->with('message', $course->getName() . ' was updated.');
     }
