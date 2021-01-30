@@ -63,7 +63,7 @@ class WeekController extends Controller
     public function store(Request $request, Period $period)
     {
         if($period->getUserId() == Auth::id()){
-            $week = Week::where('period_id', '=', $period->id)->sortByDesc('end_date')->first();
+            $week = Week::where('period_id', '=', $period->id)->orderByDesc('end_date')->first();
             if($week !== null){
                 $request->validate([
                     'name'=>'required|max:15',
