@@ -21,8 +21,8 @@ class CreateLessonsTable extends Migration
             $table->string('name');
             $table->boolean('done');
             $table->date('date');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
 
             $table->foreign('week_id')->references('id')->on('weeks')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');

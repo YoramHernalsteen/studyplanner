@@ -58,5 +58,10 @@ class Week extends Model
         return $this->hasMany(Lesson::class)->where('date', '=', $date)->orderBy('start_time', 'ASC')->get();
     }
 
+    public function dayFormatConverter($day){
+        $day = strtr($day, '/', '-');
+         return date('Y-m-d', strtotime($day));
+    }
+
 
 }

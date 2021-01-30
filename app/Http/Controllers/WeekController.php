@@ -16,10 +16,23 @@ class WeekController extends Controller
      */
     public function index(Period $period)
     {
-        $week = Week::first();
+        $week = Week::where([
+            ['start_date', '<=' ,date('Y-m-d')],
+            ['end_date', '>=', date('Y-m-d')]
+        ])->first();
+        if($week !== null){
+            $nextDay = date('Y-m-d', strtotime($week->end_date . " +1 day"));;
+            $endDay = date('Y-m-d', strtotime($nextDay . " +6 days"));
+        } else{
+            $nextDay = date('Y-m-d', strtotime( " +1 day"));;
+            $endDay = date('Y-m-d', strtotime($nextDay . " +6 days"));
+        }
+
         return view('weeks.index', [
             'period'=> $period,
             'week'=>$week,
+            'nextDay'=>$nextDay,
+            'endDay'=>$endDay
         ]);
     }
 
@@ -36,12 +49,34 @@ class WeekController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Period $period
+     *
      */
-    public function store(Request $request)
+    public function store(Request $request, Period $period)
     {
-        //
+        $week = Week::all()->sortByDesc('end_date')->first();
+        if($week !== null){
+            $request->validate([
+                'name'=>'required|max:15',
+                'start_date'=>'required|date|after:' . $week->end_date,
+                'end_date'=>'required|date|after:start_date|before:' . $period->due_date
+            ]);
+        } else{
+            $request->validate([
+                'name'=>'required|max:15',
+                'start_date'=>'required|date',
+                'end_date'=>'required|date|after:start_date|before:' . $period->due_date
+            ]);
+        }
+
+        $newWeek = new Week();
+        $newWeek->setPeriod($period->id);
+        $newWeek->setName(request('name'));
+        $newWeek->setStartDate(request('start_date'));
+        $newWeek->setEndDate(request('end_date'));
+        $newWeek->save();
+        return redirect('/periods/' . $period->id . '/week-planner')->with('message', 'New week ' . $newWeek->getName() . ' created.');
     }
 
     /**

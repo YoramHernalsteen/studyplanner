@@ -5,6 +5,7 @@ use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\WeekController;
+use App\Http\Controllers\ClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +37,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
     //WEEKS
     Route::get('/periods/{period}/week-planner', [WeekController::class, 'index']);
+    Route::post('/periods/{period}/week-planner/create', [WeekController::class, 'store']);
+    //CLASS
+    Route::post('/weeks/{week}/class/create', [ClassController::class, 'store']);
 });
