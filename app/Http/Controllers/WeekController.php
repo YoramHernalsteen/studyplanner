@@ -17,7 +17,7 @@ class WeekController extends Controller
      */
     public function index(Period $period)
     {
-        if($period->getUserId() == Auth::id){
+        if($period->getUserId() == Auth::id()){
             $week = Week::where([
                 ['start_date', '<=' ,date('Y-m-d')],
                 ['end_date', '>=', date('Y-m-d')],
