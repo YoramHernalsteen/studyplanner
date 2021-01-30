@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use App\Models\Week;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassController extends Controller
 {
@@ -37,23 +38,28 @@ class ClassController extends Controller
      */
     public function store(Request $request, Week $week)
     {
-        $request->validate([
-            'course'=> 'required|exists:courses,id',
-            'date'=>'required|date',
-            'name'=>'required|max:15',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-        ]);
-        $lesson = new Lesson();
-        $lesson->week_id = $week->id;
-        $lesson->course_id = request('course');
-        $lesson->date = request('date');
-        $lesson->name = request('name');
-        $lesson->start_time = request('start_time');
-        $lesson->end_time = request('end_time');
-        $lesson->done =false;
-        $lesson->save();
-        return redirect('/periods/' . $week->period->id . '/week-planner')->with('message', 'Class ' . $lesson->name . ' added.');
+        if($week->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date',
+                'name'=>'required|max:15',
+                'start_time' => 'required|date_format:H:i',
+                'end_time' => 'required|date_format:H:i|after:start_time',
+            ]);
+            $lesson = new Lesson();
+            $lesson->week_id = $week->id;
+            $lesson->course_id = request('course');
+            $lesson->date = request('date');
+            $lesson->name = request('name');
+            $lesson->start_time = request('start_time');
+            $lesson->end_time = request('end_time');
+            $lesson->done =false;
+            $lesson->save();
+            return redirect('/periods/' . $week->period->id . '/week-planner')->with('message', 'Class ' . $lesson->name . ' added.');
+        } else{
+            abort(403);
+        }
+
     }
 
     /**
