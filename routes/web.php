@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\WeekController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,6 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/chapters/edit/{chapter}', [ChapterController::class, 'update']);
     Route::post('/chapters/delete/{chapter}', [ChapterController::class, 'destroy']);
     Route::post('/chapters/change-status/{chapter}',[ChapterController::class, 'updateStatus']);
+    //WEEKS
+    Route::get('/periods/{period}/week-planner', [WeekController::class, 'index']);
 });

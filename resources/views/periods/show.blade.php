@@ -1,4 +1,9 @@
 @extends('layout.authenticated')
+@section('nav')
+    <li class="nav-item">
+        <a class="nav-link" href="/periods/{{$period->id}}/week-planner">week planner</a>
+    </li>
+@endsection
 @section('content')
     <div class="container mb-5">
         <div class="row">
