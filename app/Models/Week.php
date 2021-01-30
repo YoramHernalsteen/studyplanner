@@ -48,6 +48,15 @@ class Week extends Model
         }
         return $dates;
     }
+    public function lessons(){
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function lessonsOnDay($day){
+        $day = strtr($day, '/', '-');
+        $date = date('Y-m-d', strtotime($day));
+        return $this->hasMany(Lesson::class)->where('date', '=', $date)->get();
+    }
 
 
 }

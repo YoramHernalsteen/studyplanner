@@ -31,6 +31,14 @@
                 @forelse($week->getDays() as $day)
                   <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                       <p class="font-weight-bold text-center">{{$day}}</p>
+                      @foreach($week->lessonsOnDay($day) as $lesson)
+                          <div class="row">
+                              <div class="col-10 offset-2">
+                                  <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
+                                  <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
+                              </div>
+                          </div>
+                      @endforeach
                   </div>
                 @empty
                     <p>No week planned.</p>
