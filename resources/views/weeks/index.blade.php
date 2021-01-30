@@ -11,6 +11,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 <h2>WEEK PLANNER</h2>
+                <p>New week: <i class="bi bi-calendar2-plus" style="font-size: 2em"></i></p>
             </div>
         </div>
         @if ($errors->any())

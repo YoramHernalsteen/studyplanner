@@ -55,7 +55,7 @@ class Week extends Model
     public function lessonsOnDay($day){
         $day = strtr($day, '/', '-');
         $date = date('Y-m-d', strtotime($day));
-        return $this->hasMany(Lesson::class)->where('date', '=', $date)->get();
+        return $this->hasMany(Lesson::class)->where('date', '=', $date)->orderBy('start_time', 'ASC')->get();
     }
 
 
