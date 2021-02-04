@@ -45,10 +45,10 @@
                       </div>
                      <div class="row">
                          <div class="col-4 offset-2">
-                             <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}" style="font-size: 0.75em">Class</button>
+                             <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}" style="font-size: 0.5em">Class</button>
                          </div>
                          <div class="col-4">
-                             <button class="btn btn-outline-danger" style="font-size: 0.75em">Session</button>
+                             <button class="btn btn-outline-danger" style="font-size: 0.5em">Session</button>
                          </div>
                      </div>
                       @foreach($week->lessonsOnDay($day) as $lesson)
@@ -67,7 +67,7 @@
         </div>
 
         <!-- FIRST FUTURE WEEK -->
-        <div class="row mb-4">
+        <div class="row mt-5 mb-4">
             <div class="col-10 offset-1 text-center" style="border: black solid 1px; border-radius: 25px">
                 <h4>Next planned week</h4>
             </div>
@@ -83,10 +83,10 @@
                         </div>
                         <div class="row">
                             <div class="col-4 offset-2">
-                                <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}" style="font-size: 0.75em">Class</button>
+                                <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}" style="font-size: 0.5em">Class</button>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-outline-danger" style="font-size: 0.75em">Session</button>
+                                <button class="btn btn-outline-danger" style="font-size: 0.5em">Session</button>
                             </div>
                         </div>
                         @foreach($firstFuture->lessonsOnDay($day) as $lesson)

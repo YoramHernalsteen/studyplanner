@@ -36,7 +36,7 @@
                 @foreach($courses as $course)
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                         <div class="row mb-1 mx-1"
-                             style="border: black solid 1px; border-radius: 15px; background-color: {{$course->getColor()}}">
+                             style="border-radius: 15px; background-color: {{$course->getColor()}}">
                             <div class="col-8 mt-1">
                                 <p>
                                     <a href="/courses/show/{{$course->id}}" class="courseLink"  style="font-size: 1.25em;">{{$course->getName()}}</a>
@@ -105,7 +105,7 @@
             <!--STATS -->
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                     <div class="row mb-1 mx-1 "
-                         style="border: black solid 1px; background-color:#3340a3;color: white; border-radius: 15px">
+                         style="background-color:#3340a3;color: white; border-radius: 15px">
                         <div class="col-12">
                             <p class="mt-1 text-center" style="font-size: 1.25em">Statistics</p>
                         </div>
