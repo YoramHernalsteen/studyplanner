@@ -23,8 +23,15 @@ class WeekController extends Controller
                 ['end_date', '>=', date('Y-m-d')],
                 ['period_id', '=', $period->id]
             ])->first();
-            if($week !== null){
-                $nextDay = date('Y-m-d', strtotime($week->end_date . " +1 day"));;
+            $firstFutureWeek = Week::where([
+                ['start_date', '>=' ,date('Y-m-d')],
+                ['period_id', '=', $period->id]
+            ])->orderBy('start_date')->first();
+            $lastPlanned = Week::where([
+                ['period_id', '=', $period->id]
+            ])->orderByDesc('start_date')->first();
+            if($lastPlanned !== null){
+                $nextDay = date('Y-m-d', strtotime($lastPlanned->end_date . " +1 day"));;
                 $endDay = date('Y-m-d', strtotime($nextDay . " +6 days"));
             } else{
                 $nextDay = date('Y-m-d', strtotime( " +1 day"));;
@@ -35,7 +42,8 @@ class WeekController extends Controller
                 'period'=> $period,
                 'week'=>$week,
                 'nextDay'=>$nextDay,
-                'endDay'=>$endDay
+                'endDay'=>$endDay,
+                'firstFuture'=>$firstFutureWeek
             ]);
         } else{
             abort(403);

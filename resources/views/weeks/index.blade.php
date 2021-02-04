@@ -65,6 +65,44 @@
                         <p>No week planned.</p>
             @endif
         </div>
+
+        <!-- FIRST FUTURE WEEK -->
+        <div class="row mb-4">
+            <div class="col-10 offset-1 text-center" style="border: black solid 1px; border-radius: 25px">
+                <h4>Next planned week</h4>
+            </div>
+        </div>
+        <div class="row">
+            @if($firstFuture!== null && collect($firstFuture->getDays()!= null))
+                @foreach($firstFuture->getDays() as $day)
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="font-weight-bold text-center">{{$day}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 offset-2">
+                                <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}" style="font-size: 0.75em">Class</button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-outline-danger" style="font-size: 0.75em">Session</button>
+                            </div>
+                        </div>
+                        @foreach($firstFuture->lessonsOnDay($day) as $lesson)
+                            <div class="row">
+                                <div class="col-10 offset-2">
+                                    <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
+                                    <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            @else
+                <p>No week planned.</p>
+            @endif
+        </div>
     </div>
 
     {{--NEW WEEK MODAL--}}
@@ -124,7 +162,7 @@
         </div>
     </div>
 
-    <!--NEW CLASS MODAL -->
+    <!--NEW CLASS MODAL CURRENT WEEK -->
     <div class="modal fade" id="newClassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -140,7 +178,80 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="classDate">Date</label>
-                            <input type="date" id="classDate" name="date" class="form-control">
+                            <input type="date" id="classDate" name="date" class="form-control classDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select name="course" id="course" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="start_time">Start time</label>
+                            <input type="time" name="start_time" id="start_time"
+                                   class="form-control @error('start_time') is-invalid @enderror" required
+                                   value="{{old('start_time')}}">
+                            @error('start_time')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="end_time">End time</label>
+                            <input type="time" name="end_time" id="end_time"
+                                   class="form-control @error('end_time') is-invalid @enderror" required
+                                   value="{{old('end_time')}}">
+                            @error('end_time')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--NEW CLASS MODAL FUTURE WEEK -->
+    <div class="modal fade" id="newClassModalFTW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New class</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" @if($firstFuture !== null)action="/weeks/{{$firstFuture->id}}/class/create"@endif id="classCreateForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="classDate">Date</label>
+                            <input type="date" id="classDate"  name="date" class="form-control classDate">
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -204,7 +315,8 @@
                 console.log("setDate");
                 let id = $(this).attr("id");
                 let date = document.getElementById(id).dataset['date'];
-                $('#classDate').val(date);
+                $('.classDate').val(date);
+                console.log(date);
             });
         });
 
