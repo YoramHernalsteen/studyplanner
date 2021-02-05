@@ -40,7 +40,7 @@
                   <div class="col-lg-4 col-md-6 col-sm-12 pb-5" style="border:solid 1px black;">
                       <div class="row">
                           <div class="col-12">
-                              <p class="font-weight-bold text-center my-3" style="background-color: lightsteelblue; border-radius: 10px">{{$week->dayExtraInfo($day)}}</p>
+                              <p class="font-weight-bold text-center my-3" style="background-color: #caf0f8; border-radius: 10px">{{$week->dayExtraInfo($day)}}</p>
                           </div>
                       </div>
                       <div class="row">
@@ -75,7 +75,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 pb-5" style="border:solid 1px black;">
                         <div class="row">
                             <div class="col-12">
-                                <p class="font-weight-bold text-center my-3" style="background-color: lightsteelblue; border-radius: 10px">{{$firstFuture->dayExtraInfo($day)}}</p>
+                                <p class="font-weight-bold text-center my-3" style="background-color: #caf0f8; border-radius: 10px">{{$firstFuture->dayExtraInfo($day)}}</p>
                             </div>
                         </div>
                         <div class="row">
