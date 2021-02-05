@@ -63,5 +63,10 @@ class Week extends Model
          return date('Y-m-d', strtotime($day));
     }
 
+    public function dayExtraInfo($day){
+        $day = strtr($day, '/', '-');
+        return date('l d/m/Y', strtotime($day));
+    }
+
 
 }

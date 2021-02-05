@@ -7,7 +7,7 @@
 @endsection
 @endsection
 @section('content')
-    <div class="container mb-5">
+    <div class="container mb-5 pb-5">
         <div class="row">
             <div class="col-12 text-center">
                 <h2>WEEK PLANNER</h2>
@@ -37,20 +37,17 @@
         <div class="row">
             @if($week!== null && collect($week->getDays()!= null))
                 @foreach($week->getDays() as $day)
-                  <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                  <div class="col-lg-4 col-md-6 col-sm-12 pb-5" style="border:solid 1px black;">
                       <div class="row">
                           <div class="col-12">
-                              <p class="font-weight-bold text-center">{{$day}}</p>
+                              <p class="font-weight-bold text-center my-3" style="background-color: lightsteelblue; border-radius: 10px">{{$week->dayExtraInfo($day)}}</p>
                           </div>
                       </div>
-                     <div class="row">
-                         <div class="col-4 offset-2">
-                             <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}" style="font-size: 0.5em">Class</button>
-                         </div>
-                         <div class="col-4">
-                             <button class="btn btn-outline-danger" style="font-size: 0.5em">Session</button>
-                         </div>
-                     </div>
+                      <div class="row">
+                          <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
+                              <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}"></i></span></p>
+                          </div>
+                      </div>
                       @foreach($week->lessonsOnDay($day) as $lesson)
                           <div class="row">
                               <div class="col-10 offset-2">
@@ -75,18 +72,15 @@
         <div class="row">
             @if($firstFuture!== null && collect($firstFuture->getDays()!= null))
                 @foreach($firstFuture->getDays() as $day)
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-5" style="border:solid 1px black;">
                         <div class="row">
                             <div class="col-12">
-                                <p class="font-weight-bold text-center">{{$day}}</p>
+                                <p class="font-weight-bold text-center my-3" style="background-color: lightsteelblue; border-radius: 10px">{{$firstFuture->dayExtraInfo($day)}}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4 offset-2">
-                                <button class="btn btn-outline-danger class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}" style="font-size: 0.5em">Class</button>
-                            </div>
-                            <div class="col-4">
-                                <button class="btn btn-outline-danger" style="font-size: 0.5em">Session</button>
+                            <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
+                                <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$week->dayFormatConverter($day)}}" id="DAYFT{{$day}}"></i></span></p>
                             </div>
                         </div>
                         @foreach($firstFuture->lessonsOnDay($day) as $lesson)
@@ -168,7 +162,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New class</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">New class for current week</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -178,7 +172,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="classDate">Date</label>
-                            <input type="date" id="classDate" name="date" class="form-control classDate">
+                            <input readonly type="date" id="classDate" name="date" class="form-control classDate">
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -241,7 +235,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New class</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">New class for next week</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -251,7 +245,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="classDate">Date</label>
-                            <input type="date" id="classDate"  name="date" class="form-control classDate">
+                            <input readonly type="date" id="classDate"  name="date" class="form-control classDate">
                         </div>
                         <div class="form-group">
                             <label for="name">Name</label>
