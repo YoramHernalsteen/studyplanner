@@ -9,7 +9,7 @@
     <script src="{{ asset('js/app.js')}} "></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light mb-5">
     <a class="navbar-brand" href="/">
         <img src="/images/studyplanner_logo_auth.png" width="150" height="150" class="d-inline-block align-top img-fluid" alt="">
     </a>
@@ -38,6 +38,7 @@
         </ul>
     </div>
 </nav>
+<div style="margin-top: 5em"></div>
 @yield('content')
 <nav class="navbar fixed-bottom navbar-light bg-light row">
     <div class="col-lg-6 offset-lg-3">
