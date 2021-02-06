@@ -80,7 +80,7 @@
                         </div>
                         <div class="row">
                             <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
-                                <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$week->dayFormatConverter($day)}}" id="DAYFT{{$day}}"></i></span></p>
+                                <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}"></i></span></p>
                             </div>
                         </div>
                         @foreach($firstFuture->lessonsOnDay($day) as $lesson)
