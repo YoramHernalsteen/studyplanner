@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\HomeWork;
+use App\Models\Week;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeWorkController extends Controller
 {
@@ -30,11 +32,30 @@ class HomeWorkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Week $week
+     *
      */
-    public function store(Request $request)
+    public function store(Request $request, Week $week)
     {
+        if(Auth::id() == $week->period->getUserId()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date',
+                'name'=>'required|max:15',
+            ]);
+            $homeWork = new HomeWork();
+            $homeWork->course_id = request('course');
+            $homeWork->week_id = $week->id;
+            $homeWork->date = request('date');
+            $homeWork->name = request('name');
+            $homeWork->done = false;
+            $homeWork->save();
+            return redirect('/periods/' . $week->period->id . '/week-planner')->with('message', 'Homework added');
+
+        } else{
+            abort(403);
+        }
         //
     }
 
@@ -70,6 +91,20 @@ class HomeWorkController extends Controller
     public function update(Request $request, HomeWork $homeWork)
     {
         //
+    }
+
+    public function check(HomeWork $homeWork){
+        if(Auth::id() == $homeWork->course->period->getUserId()){
+            if($homeWork->done == true){
+                $homeWork->done =false;
+            } else{
+                $homeWork->done=true;
+            }
+            $homeWork->save();
+            return redirect('/periods/' . $homeWork->course->period->id  . '/week-planner')->with('message', 'Homework status updated');
+        } else{
+            abort(403);
+        }
     }
 
     /**

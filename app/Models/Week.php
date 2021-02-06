@@ -51,6 +51,15 @@ class Week extends Model
     public function lessons(){
         return $this->hasMany(Lesson::class);
     }
+    public function homeWork(){
+        return $this->hasMany(HomeWork::class);
+    }
+
+    public function homeWorkOnDay($day){
+        $day = strtr($day, '/', '-');
+        $date = date('Y-m-d', strtotime($day));
+        return $this->homeWork()->where('date', '=', $date)->orderBy('done', 'ASC')->get();
+    }
 
     public function lessonsOnDay($day){
         $day = strtr($day, '/', '-');

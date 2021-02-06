@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\WeekController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\HomeWorkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/periods/{period}/week-planner/create', [WeekController::class, 'store']);
     //CLASS
     Route::post('/weeks/{week}/class/create', [ClassController::class, 'store']);
+    //HOMEWORK
+    Route::post('/weeks/{week}/homework/create', [HomeWorkController::class, 'store']);
+    Route::post('/homeworks/{homeWork}/update', [HomeWorkController::class, 'check']);
 });

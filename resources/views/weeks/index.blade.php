@@ -43,9 +43,10 @@
                               <p class="font-weight-bold text-center my-3" style="background-color: #caf0f8; border-radius: 10px">{{$week->dayExtraInfo($day)}}</p>
                           </div>
                       </div>
+                      <!-- CLASSES -->
                       <div class="row">
                           <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
-                              <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}"></i></span></p>
+                              <p><span style="background-color: #ffc6ff">Classes </span><span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAY{{$day}}"></i></span></p>
                           </div>
                       </div>
                       @foreach($week->lessonsOnDay($day) as $lesson)
@@ -53,6 +54,24 @@
                               <div class="col-10 offset-2">
                                   <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
                                   <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
+                              </div>
+                          </div>
+                      @endforeach
+
+                      <!-- HOMEWORK -->
+                      <div class="row mt-3">
+                          <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
+                              <p><span style="background-color: #fdffb6">Homework </span><span class="float-right"><i class="bi bi-journal-plus cursor homework_action" data-toggle="modal" data-target="#newHomeWorkModal" data-date="{{$week->dayFormatConverter($day)}}" id="DAYHW{{$day}}"></i></span></p>
+                          </div>
+                      </div>
+                      @foreach($week->homeWorkOnDay($day) as $homeWork)
+                          <div class="row">
+                              <div class="col-8 offset-2">
+                                  @if($homeWork->done == true)
+                                      <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                  @else
+                                      <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                  @endif
                               </div>
                           </div>
                       @endforeach
@@ -78,9 +97,10 @@
                                 <p class="font-weight-bold text-center my-3" style="background-color: #caf0f8; border-radius: 10px">{{$firstFuture->dayExtraInfo($day)}}</p>
                             </div>
                         </div>
+                        <!-- CLASSES -->
                         <div class="row">
                             <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
-                                <p>Classes <span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFT{{$day}}"></i></span></p>
+                                <p><span style="background-color: #ffc6ff">Classes </span><span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newClassModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFTCL{{$day}}"></i></span></p>
                             </div>
                         </div>
                         @foreach($firstFuture->lessonsOnDay($day) as $lesson)
@@ -88,6 +108,23 @@
                                 <div class="col-10 offset-2">
                                     <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
                                     <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- HOMEWORK -->
+                        <div class="row mt-3">
+                            <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
+                                <p><span style="background-color: #fdffb6">Homework </span><span class="float-right"><i class="bi bi-journal-plus cursor homework_action" data-toggle="modal" data-target="#newHomeWorkModalFTW" data-date="{{$firstFuture->dayFormatConverter($day)}}" id="DAYFTHW{{$day}}"></i></span></p>
+                            </div>
+                        </div>
+                        @foreach($firstFuture->homeWorkOnDay($day) as $homeWork)
+                            <div class="row">
+                                <div class="col-8 offset-2">
+                                    @if($homeWork->done == true)
+                                        <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                    @else
+                                        <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
@@ -303,14 +340,124 @@
         </div>
     </div>
 
+
+    <!-- NEW HOMEWORK MODAL FUTURE WEEK -->
+    <div class="modal fade" id="newHomeWorkModalFTW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New homework for next week</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" @if($firstFuture !== null)action="/weeks/{{$firstFuture->id}}/homework/create"@endif id="HWCreateFormFuture">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="classDate">Date</label>
+                            <input readonly type="date"   name="date" class="form-control homeWorkDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select name="course" id="course" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW HOMEWORK MODAL CURRENT WEEK -->
+    <div class="modal fade" id="newHomeWorkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New homework for current week</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" @if($week !== null)action="/weeks/{{$week->id}}/homework/create"@endif id="HWCreateForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="classDate">Date</label>
+                            <input readonly type="date"   name="date" class="form-control homeWorkDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select name="course" id="course" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function () {
             $(".class_action").click(function () {
-                console.log("setDate");
                 let id = $(this).attr("id");
                 let date = document.getElementById(id).dataset['date'];
                 $('.classDate').val(date);
-                console.log(date);
+            });
+        });
+        $(function () {
+            $(".homework_action").click(function () {
+                let id = $(this).attr("id");
+                let date = document.getElementById(id).dataset['date'];
+                $('.homeWorkDate').val(date);
             });
         });
 
