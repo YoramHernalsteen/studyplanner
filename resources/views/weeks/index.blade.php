@@ -68,9 +68,15 @@
                           <div class="row">
                               <div class="col-8 offset-2">
                                   @if($homeWork->done == true)
-                                      <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                      <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check1">
+                                          @csrf
+                                          <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check1').submit();"><span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span>  <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                      </form>
                                   @else
-                                      <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                      <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check0">
+                                          @csrf
+                                          <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check0').submit();"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                      </form>
                                   @endif
                               </div>
                           </div>
@@ -121,9 +127,15 @@
                             <div class="row">
                                 <div class="col-8 offset-2">
                                     @if($homeWork->done == true)
-                                        <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                        <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check1FT">
+                                            @csrf
+                                            <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check1FT').submit();"><span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span> <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                        </form>
                                     @else
-                                        <p><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                        <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check0FT">
+                                            @csrf
+                                            <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check0FT').submit();"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                        </form>
                                     @endif
                                 </div>
                             </div>
