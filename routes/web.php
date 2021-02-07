@@ -41,6 +41,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/periods/{period}/week-planner/create', [WeekController::class, 'store']);
     //CLASS
     Route::post('/weeks/{week}/class/create', [ClassController::class, 'store']);
+    Route::post('classes/{week}/{lesson}/edit', [ClassController::class, 'update']);
+    Route::post('classes/{lesson}/delete', [ClassController::class, 'destroy']);
     //HOMEWORK
     Route::post('/weeks/{week}/homework/create', [HomeWorkController::class, 'store']);
     Route::post('/homeworks/{homeWork}/update', [HomeWorkController::class, 'check']);

@@ -104,6 +104,11 @@ class ClassController extends Controller
      */
     public function destroy(Lesson $lesson)
     {
-        //
+        if($lesson->course->period->getUserId() == Auth::id()){
+            $lesson->delete();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 }

@@ -51,8 +51,12 @@
                       </div>
                       @foreach($week->lessonsOnDay($day) as $lesson)
                           <div class="row">
-                              <div class="col-10 offset-2">
-                                  <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
+                              <div class="col-8 offset-2">
+                                  <p>
+                                      <span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}
+                                      <i class="bi bi-pencil-square float-right cursor" data-toggle="modal" data-target="#editClassModal"></i>
+                                      <i class="bi bi-trash float-right cursor" onclick="deleteClass({{$lesson->id}})" data-toggle="modal" data-target="#deleteClassModal"></i>
+                                  </p>
                                   <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
                               </div>
                           </div>
@@ -558,6 +562,90 @@
         </div>
     </div>
 
+    <!-- EDIT CLASS MODAL -->
+    <div class="modal fade" id="editClassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit class</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="ClassEditForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="dateEditClass">Date</label>
+                            <input type="date" name="date" id="dateEditClass" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="nameEditClass">Name</label>
+                            <input type="text" name="name" id="nameEditClass"
+                                   class="form-control @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="courseEditClass">Course</label>
+                            <select name="course" id="courseEditClass" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="startEditClass">Start time</label>
+                            <input type="time" name="start_time" id="startEditClass" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="endEditClass">End time</label>
+                            <input type="time" name="end_time" id="endEditClass" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- DELETE CLASS MODAL-->
+    <div class="modal fade" id="deleteClassModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete class</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="ClassDeleteForm">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this class?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Yes, I am sure</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function () {
             $(".class_action").click(function () {
@@ -585,6 +673,13 @@
 
         function deleteHomeWork(id){
             document.getElementById('HWDeleteForm').action="/homeworks/" + id + "/delete";
+        }
+
+        function editClass(name, id, date, course, week, startDate,endDate,startTime, endTime){
+
+        }
+        function deleteClass(id){
+            document.getElementById("ClassDeleteForm").action="/classes/" + id + "/delete";
         }
 
     </script>
