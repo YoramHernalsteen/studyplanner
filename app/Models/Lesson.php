@@ -10,6 +10,10 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    /**
+     * @var mixed
+     */
+
     public function getStartTime(){
         $date = new DateTime($this->start_time);
 

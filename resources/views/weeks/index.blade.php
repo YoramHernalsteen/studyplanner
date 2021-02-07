@@ -54,7 +54,7 @@
                               <div class="col-8 offset-2">
                                   <p>
                                       <span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}
-                                      <i class="bi bi-pencil-square float-right cursor" data-toggle="modal" data-target="#editClassModal"></i>
+                                      <i class="bi bi-pencil-square float-right cursor" onclick="editClass('{{$lesson->name}}', {{$lesson->id}}, '{{$lesson->date}}', {{$lesson->course->id}}, {{$week->id}}, '{{$week->start_date}}', '{{$week->end_date}}', '{{$lesson->getStartTime()}}', '{{$lesson->getEndTime()}}')" data-toggle="modal" data-target="#editClassModal"></i>
                                       <i class="bi bi-trash float-right cursor" onclick="deleteClass({{$lesson->id}})" data-toggle="modal" data-target="#deleteClassModal"></i>
                                   </p>
                                   <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
@@ -127,8 +127,12 @@
                         </div>
                         @foreach($firstFuture->lessonsOnDay($day) as $lesson)
                             <div class="row">
-                                <div class="col-10 offset-2">
-                                    <p><span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}</p>
+                                <div class="col-8 offset-2">
+                                    <p>
+                                        <span class="font-weight-bold">{{$lesson->course->name}}</span> {{$lesson->name}}
+                                        <i class="bi bi-pencil-square float-right cursor" onclick="editClass('{{$lesson->name}}', {{$lesson->id}}, '{{$lesson->date}}', {{$lesson->course->id}}, {{$firstFuture->id}}, '{{$firstFuture->start_date}}', '{{$firstFuture->end_date}}', '{{$lesson->getStartTime()}}', '{{$lesson->getEndTime()}}')" data-toggle="modal" data-target="#editClassModal"></i>
+                                        <i class="bi bi-trash float-right cursor" onclick="deleteClass({{$lesson->id}})" data-toggle="modal" data-target="#deleteClassModal"></i>
+                                    </p>
                                     <p>{{$lesson->getStartTime()}} - {{$lesson->getEndTime()}}</p>
                                 </div>
                             </div>
@@ -676,7 +680,16 @@
         }
 
         function editClass(name, id, date, course, week, startDate,endDate,startTime, endTime){
-
+            document.getElementById('nameEditClass').value=name;
+            document.getElementById('dateEditClass').value =date;
+            document.getElementById("dateEditClass").min = startDate;
+            document.getElementById("dateEditClass").max = endDate;
+            document.getElementById('courseEditClass').value=course;
+            document.getElementById('startEditClass').value = startTime;
+            console.log(startTime);
+            document.getElementById('endEditClass').value= endTime;
+            document.getElementById('endEditClass').min=startTime;
+            document.getElementById("ClassEditForm").action= "/classes/" + week + "/" + id + "/edit";
         }
         function deleteClass(id){
             document.getElementById("ClassDeleteForm").action="/classes/" + id + "/delete";

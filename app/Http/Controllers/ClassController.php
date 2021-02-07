@@ -87,13 +87,32 @@ class ClassController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lesson  $lesson
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Week $week
+     * @param \App\Models\Lesson $lesson
+     * @return void
      */
-    public function update(Request $request, Lesson $lesson)
+    public function update(Request $request, Week $week, Lesson $lesson)
     {
-        //
+        if($week->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date|before_or_equal:' . $week->getEndDate() . '|after_or_equal:' . $week->getStartDate(),
+                'name'=>'required|max:15',
+                'start_time' => 'required|date_format:H:i',
+                'end_time' => 'required|date_format:H:i|after:start_time',
+            ]);
+            $lesson->week_id = $week->id;
+            $lesson->course_id = request('course');
+            $lesson->date = request('date');
+            $lesson->name = request('name');
+            $lesson->start_time = request('start_time');
+            $lesson->end_time = request('end_time');
+            $lesson->save();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 
     /**
