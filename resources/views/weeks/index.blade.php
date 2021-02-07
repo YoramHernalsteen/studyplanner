@@ -70,12 +70,24 @@
                                   @if($homeWork->done == true)
                                       <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check1">
                                           @csrf
-                                          <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check1').submit();"><span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span>  <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                          <p class="cursor">
+                                              <span onclick="document.getElementById('{{$homeWork->id}}check1').submit();">
+                                                  <i class="bi bi-check-circle"></i> <span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span>
+                                              </span>
+                                              <i class="bi bi-pencil-square float-right editHW_action" onclick="editHomeWork('{{$homeWork->name}}','{{$homeWork->date}}',{{$homeWork->id}}, {{$homeWork->course->id}}, {{$week->id}},'{{$week->start_date}}', '{{$week->end_date}}')"  data-toggle="modal" data-target="#editHomeWorkModal"></i>
+                                              <i class="bi bi-trash float-right" data-toggle="modal" data-target="#deleteHomeWorkModal" onclick="deleteHomeWork({{$homeWork->id}})"></i>
+                                          </p>
                                       </form>
                                   @else
                                       <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check0">
                                           @csrf
-                                          <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check0').submit();"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                          <p class="cursor">
+                                              <span onclick="document.getElementById('{{$homeWork->id}}check0').submit();">
+                                                  <i class="bi bi-circle"></i> <span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}
+                                              </span>
+                                              <i class="bi bi-pencil-square float-right" onclick="editHomeWork('{{$homeWork->name}}','{{$homeWork->date}}',{{$homeWork->id}}, {{$homeWork->course->id}}, {{$week->id}}, '{{$week->start_date}}', '{{$week->end_date}}')"  data-toggle="modal" data-target="#editHomeWorkModal"></i>
+                                              <i class="bi bi-trash float-right" data-toggle="modal" data-target="#deleteHomeWorkModal" onclick="deleteHomeWork({{$homeWork->id}})"></i>
+                                          </p>
                                       </form>
                                   @endif
                               </div>
@@ -129,12 +141,24 @@
                                     @if($homeWork->done == true)
                                         <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check1FT">
                                             @csrf
-                                            <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check1FT').submit();"><span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span> <span class="float-right"><i class="bi bi-check-circle"></i></span></p>
+                                            <p class="cursor">
+                                                <span onclick="document.getElementById('{{$homeWork->id}}check1FT').submit();">
+                                                    <i class="bi bi-check-circle"></i> <span style="text-decoration: line-through"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}</span>
+                                                </span>
+                                                <i class="bi bi-pencil-square float-right" onclick="editHomeWork('{{$homeWork->name}}','{{$homeWork->date}}',{{$homeWork->id}}, {{$homeWork->course->id}}, {{$firstFuture->id}}, '{{$firstFuture->start_date}}', '{{$firstFuture->end_date}}')"  data-toggle="modal" data-target="#editHomeWorkModal"></i>
+                                                <i class="bi bi-trash float-right" data-toggle="modal" data-target="#deleteHomeWorkModal" onclick="deleteHomeWork({{$homeWork->id}})"></i>
+                                            </p>
                                         </form>
                                     @else
                                         <form action="/homeworks/{{$homeWork->id}}/update" method="post" id="{{$homeWork->id}}check0FT">
                                             @csrf
-                                            <p class="cursor" onclick="document.getElementById('{{$homeWork->id}}check0FT').submit();"><span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}} <span class="float-right"><i class="bi bi-circle"></i></span></p>
+                                            <p class="cursor">
+                                                <span onclick="document.getElementById('{{$homeWork->id}}check0FT').submit();">
+                                                    <i class="bi bi-circle"></i> <span class="font-weight-bold">{{$homeWork->course->name}}</span>{{$homeWork->name}}
+                                                </span>
+                                                <i class="bi bi-pencil-square float-right" onclick="editHomeWork('{{$homeWork->name}}','{{$homeWork->date}}',{{$homeWork->id}}, {{$homeWork->course->id}}, {{$firstFuture->id}}, '{{$firstFuture->start_date}}', '{{$firstFuture->end_date}}')" data-toggle="modal" data-target="#editHomeWorkModal"></i>
+                                                <i class="bi bi-trash float-right" data-toggle="modal" data-target="#deleteHomeWorkModal" onclick="deleteHomeWork({{$homeWork->id}})"></i>
+                                            </p>
                                         </form>
                                     @endif
                                 </div>
@@ -457,6 +481,83 @@
         </div>
     </div>
 
+    <!--EDIT HOMEWORK MODAL -->
+    <div class="modal fade" id="editHomeWorkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit homework</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="HWEditForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="classDate">Date</label>
+                            <input type="date" name="date" id="dateEditHW" class="form-control homeWorkDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="nameEditHW"
+                                   class="form-control @error('name') is-invalid @enderror" required
+                                   value="{{old('name')}}">
+                            @error('name')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select name="course" id="courseEditHW" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE HOMEWORK MODAl -->
+    <div class="modal fade" id="deleteHomeWorkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete homework</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="HWDeleteForm">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this homework?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Yes, I am sure</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function () {
             $(".class_action").click(function () {
@@ -472,6 +573,19 @@
                 $('.homeWorkDate').val(date);
             });
         });
+
+        function editHomeWork(name, date, id, course, week, start, end){
+            document.getElementById("dateEditHW").value = date;
+            document.getElementById("dateEditHW").min= start;
+            document.getElementById("dateEditHW").max=end;
+            document.getElementById("nameEditHW").value = name;
+            document.getElementById("courseEditHW").value = course;
+            document.getElementById("HWEditForm").action = "/homeworks/" + week +  "/" + id + "/edit"
+        }
+
+        function deleteHomeWork(id){
+            document.getElementById('HWDeleteForm').action="/homeworks/" + id + "/delete";
+        }
 
     </script>
 @endsection

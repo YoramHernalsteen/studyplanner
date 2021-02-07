@@ -24,7 +24,7 @@ class WeekController extends Controller
                 ['period_id', '=', $period->id]
             ])->first();
             $firstFutureWeek = Week::where([
-                ['start_date', '>=' ,date('Y-m-d')],
+                ['start_date', '>' ,date('Y-m-d')],
                 ['period_id', '=', $period->id]
             ])->orderBy('start_date')->first();
             $lastPlanned = Week::where([

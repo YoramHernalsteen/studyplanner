@@ -32,7 +32,7 @@ class HomeWorkController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param Week $week
      *
      */
@@ -62,18 +62,17 @@ class HomeWorkController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\HomeWork  $homeWork
+     * @param HomeWork $homeWork
      * @return \Illuminate\Http\Response
      */
     public function show(HomeWork $homeWork)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\HomeWork  $homeWork
+     * @param HomeWork $homeWork
      * @return \Illuminate\Http\Response
      */
     public function edit(HomeWork $homeWork)
@@ -84,13 +83,28 @@ class HomeWorkController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HomeWork  $homeWork
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param HomeWork $homeWork
+     * @param Week $week
+     * @return void
      */
-    public function update(Request $request, HomeWork $homeWork)
+    public function update(Request $request, Week $week, HomeWork $homeWork)
     {
-        //
+
+        if($homeWork->course->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date|before_or_equal:' . $week->getEndDate() . '|after_or_equal:' . $week->getStartDate(),
+                'name'=>'required|max:15',
+            ]);
+            $homeWork->name=request('name');
+            $homeWork->date=request('date');
+            $homeWork->course_id = request('course');
+            $homeWork->save();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 
     public function check(HomeWork $homeWork){
@@ -110,11 +124,16 @@ class HomeWorkController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\HomeWork  $homeWork
+     * @param HomeWork $homeWork
      * @return \Illuminate\Http\Response
      */
     public function destroy(HomeWork $homeWork)
     {
-        //
+        if($homeWork->course->period->getUserId() == Auth::id()){
+            $homeWork->delete();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 }
