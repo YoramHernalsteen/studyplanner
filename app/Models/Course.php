@@ -29,7 +29,7 @@ class Course extends Model
         $this->user_id = $userId;
     }
     public function getChapters(){
-        return $this->hasMany(Chapter::class);
+        return $this->hasMany(Chapter::class)->orderBy('created_at');
     }
     public function randomColor(){
         $colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#A0C4FF','#BDB2FF', '#a0c4ff', '#ffc6ff', '#9bf6ff'];
