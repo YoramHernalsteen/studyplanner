@@ -162,7 +162,7 @@
                                             @csrf
                                             <p class="cursor">
                                                 <span onclick="document.getElementById('{{$homeWork->id}}check0FT').submit();">
-                                                    <i class="bi bi-circle"></i> <span class="font-weight-bold">{{$homeWork->course->name}}</span>{{$homeWork->name}}
+                                                    <i class="bi bi-circle"></i> <span class="font-weight-bold">{{$homeWork->course->name}}</span> {{$homeWork->name}}
                                                 </span>
                                                 <i class="bi bi-pencil-square float-right" onclick="editHomeWork('{{$homeWork->name}}','{{$homeWork->date}}',{{$homeWork->id}}, {{$homeWork->course->id}}, {{$firstFuture->id}}, '{{$firstFuture->start_date}}', '{{$firstFuture->end_date}}')" data-toggle="modal" data-target="#editHomeWorkModal"></i>
                                                 <i class="bi bi-trash float-right" data-toggle="modal" data-target="#deleteHomeWorkModal" onclick="deleteHomeWork({{$homeWork->id}})"></i>
