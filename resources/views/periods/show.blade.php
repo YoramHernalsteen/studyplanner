@@ -3,6 +3,9 @@
     <li class="nav-item">
         <a class="nav-link" href="/periods/{{$period->id}}/week-planner">week planner</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/periods/{{$period->id}}/exam-planner">exam planner</a>
+    </li>
 @endsection
 @section('content')
     <div class="container mb-5">

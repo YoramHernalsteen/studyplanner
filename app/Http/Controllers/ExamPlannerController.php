@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExamPlanner;
+use App\Models\Period;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExamPlannerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Period $period
+     *
      */
-    public function index()
+    public function index(Period $period)
     {
-        //
+        if($period->getUserId() == Auth::id()){
+
+            return view('examPlanner.index', [
+                'period'=> $period,
+            ]);
+        } else{
+            abort(403);
+        }
     }
 
     /**
