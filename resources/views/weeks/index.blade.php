@@ -1,10 +1,8 @@
 @extends('layout.authenticated')
 @section('nav')
-@section('nav')
     <li class="nav-item">
         <a class="nav-link" href="/periods/{{$period->id}}">{{$period->name}}</a>
     </li>
-@endsection
 @endsection
 @section('content')
     <div class="container mb-5 pb-5">

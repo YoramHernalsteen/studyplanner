@@ -7,6 +7,9 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\WeekController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\HomeWorkController;
+use App\Http\Controllers\ExamPlannerController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\StudySessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +44,22 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/periods/{period}/week-planner/create', [WeekController::class, 'store']);
     //CLASS
     Route::post('/weeks/{week}/class/create', [ClassController::class, 'store']);
-    Route::post('classes/{week}/{lesson}/edit', [ClassController::class, 'update']);
-    Route::post('classes/{lesson}/delete', [ClassController::class, 'destroy']);
+    Route::post('/classes/{week}/{lesson}/edit', [ClassController::class, 'update']);
+    Route::post('/classes/{lesson}/delete', [ClassController::class, 'destroy']);
     //HOMEWORK
     Route::post('/weeks/{week}/homework/create', [HomeWorkController::class, 'store']);
     Route::post('/homeworks/{homeWork}/update', [HomeWorkController::class, 'check']);
     Route::post('/homeworks/{week}/{homeWork}/edit', [HomeWorkController::class, 'update']);
     Route::post('/homeworks/{homeWork}/delete', [HomeWorkController::class, 'destroy']);
+    //EXAMPLANNER
+    Route::get('/periods/{period}/exam-planner', [ExamPlannerController::class, 'index']);
+    Route::post('/periods/{period}/exam-planner', [ExamPlannerController::class, 'store']);
+    //EXAM
+    Route::post('/exam-planner/{examPlanner}/exam/create', [ExamController::class, 'store']);
+    Route::post('/exams/{examPlanner}/{exam}/update', [ExamController::class, 'update']);
+    Route::post('/exams/{exam}/delete', [ExamController::class, 'destroy']);
+    //STUDYSESSION
+    Route::post('/exam-planner/{examPlanner}/study-session/create', [StudySessionController::class, 'store']);
+    Route::post('/study-sessions/{examPlanner}/{studySession}/update', [StudySessionController::class, 'update']);
+    Route::post('/study-sessions/{studySession}/delete', [StudySessionController::class, 'destroy']);
 });
