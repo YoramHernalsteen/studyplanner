@@ -53,7 +53,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/homeworks/{homeWork}/delete', [HomeWorkController::class, 'destroy']);
     //EXAMPLANNER
     Route::get('/periods/{period}/exam-planner', [ExamPlannerController::class, 'index']);
-    Route::post('/periods/{period}/exam-planner', [ExamPlannerController::class, 'store']);
+    Route::post('/periods/{period}/exam-planner/create', [ExamPlannerController::class, 'store']);
     //EXAM
     Route::post('/exam-planner/{examPlanner}/exam/create', [ExamController::class, 'store']);
     Route::post('/exams/{examPlanner}/{exam}/update', [ExamController::class, 'update']);
