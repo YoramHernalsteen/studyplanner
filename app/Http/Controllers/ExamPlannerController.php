@@ -21,6 +21,7 @@ class ExamPlannerController extends Controller
 
             return view('examPlanner.index', [
                 'period'=> $period,
+                'examPlanner'=>ExamPlanner::where('period_id', '=', $period->id)->first()
             ]);
         } else{
             abort(403);
@@ -40,12 +41,36 @@ class ExamPlannerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Period $period
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Period $period)
     {
         //
+        if($period->getUserId() == Auth::id()){
+            $examPlanners = ExamPlanner::where('period_id', '=', $period->id)->count();
+            if($examPlanners==0){
+                $request->validate([
+                    'name'=>'required|max:15',
+                    'start_date'=>'required|date',
+                    'end_date'=>'required|date|after:start_date|before:' . $period->due_date
+                ]);
+
+                $newExamPlanner = new ExamPlanner();
+                $newExamPlanner->setStartDate(request('start_date'));
+                $newExamPlanner->setEndDate(request('end_date'));
+                $newExamPlanner->setName(request('name'));
+                $newExamPlanner->setPeriod($period->id);
+                $newExamPlanner->save();
+                return redirect('/periods/' . $period->id . '/exam-planner')->with('message', 'New exam-planner ' . $newExamPlanner->getName() . ' created.');
+            } else{
+                return redirect('/periods/' . $period->id . '/exam-planner')->with('error-message', 'Examplanner already exists for this period!');
+            }
+
+        } else{
+            abort(403);
+        }
     }
 
     /**

@@ -8,11 +8,12 @@
     </li>
 @endsection
 @section('content')
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-12 text-center">
                 <h2>EXAM PLANNER</h2>
-                <p>New exam planner: <i class="bi bi-calendar2-plus cursor" data-toggle="modal" data-target="#newPlannerModal" style="font-size: 2em"></i></p>
+                <p>New exam planner: <i class="bi bi-calendar2-plus cursor" data-toggle="modal"
+                                        data-target="#newPlannerModal" style="font-size: 2em"></i></p>
             </div>
         </div>
         @if ($errors->any())
@@ -28,6 +29,34 @@
                     {{session('message')}}
                 </div>
             @endif
+            @if(session('error-message'))
+                <div class="alert alert-danger col-md-12">
+                    {{session('error-message')}}
+                </div>
+            @endif
+        </div>
+
+        <div class="row mb-5 pb-5">
+            <div class="col-12">
+                @if($examPlanner !== null)
+                    @foreach(array_chunk($examPlanner->getDays(), 7) as $week)
+                        <div class="row">
+                            @foreach($week as $day)
+                                <div class="col" style="padding: 1em; border: solid black 2px">
+                                    {{$day}}
+                                </div>
+                            @endforeach
+                        </div>
+
+                    @endforeach
+                @else
+                    <div class="row">
+                        <div class="col-6 offset-3">
+                            <p>No exam planner</p>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
     <!-- NEW PLANNER MODAL-->
