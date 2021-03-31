@@ -49,10 +49,21 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-8 offset-2 font-weight-bold" style="border-bottom: solid black 1px">
+                                        <div class="col-12 font-weight-bold" style="border-bottom: solid black 1px">
                                             <p><span style="background-color: #ffc6ff">Exams </span><span class="float-right"><i class="bi bi-journal-plus cursor class_action" data-toggle="modal" data-target="#newExamModal" onclick="examCreator('{{$examPlanner->dayFormatConverter($day)}}')"></i></span></p>
                                         </div>
                                     </div>
+                                    @foreach($examPlanner->examsOnDay($day) as $exam)
+                                        <div class="row" style="background-color:  #ffc6ff ">
+                                            <div class="col-12 offset">
+                                                <p>
+                                                    <span class="font-weight-bold">{{$exam->course->name}}</span>
+                                                </p>
+                                                <p>{{$exam->getStartTime()}} - {{$exam->getEndTime()}}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
                                 </div>
                             @endforeach
                         </div>
@@ -138,17 +149,6 @@
                         <div class="form-group">
                             <label for="classDate">Date</label>
                             <input readonly type="date" id="examDate" name="date" class="form-control examDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name"
-                                   class="form-control @error('name') is-invalid @enderror" required
-                                   value="{{old('name')}}">
-                            @error('name')
-                            <p class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </p>
-                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="course">Course</label>

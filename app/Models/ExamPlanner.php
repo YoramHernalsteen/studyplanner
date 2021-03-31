@@ -46,6 +46,12 @@ class ExamPlanner extends Model
         return $dates;
     }
 
+    public function examsOnDay($day){
+        $day = strtr($day, '/', '-');
+        $date = date('Y-m-d', strtotime($day));
+        return $this->hasMany(Exam::class)->where('date', '=', $date)->orderBy('start_time', 'ASC')->get();
+    }
+
     public function dayExtraInfo($day){
         $day = strtr($day, '/', '-');
         return date('l d/m/Y', strtotime($day));

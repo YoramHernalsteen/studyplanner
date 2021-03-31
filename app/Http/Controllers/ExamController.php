@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exam;
+use App\Models\ExamPlanner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExamController extends Controller
 {
@@ -33,8 +35,26 @@ class ExamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ExamPlanner $examPlanner)
     {
+        if($examPlanner->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date',
+                'start_time' => 'required|date_format:H:i',
+                'end_time' => 'required|date_format:H:i|after:start_time',
+            ]);
+            $exam = new Exam();
+            $exam->exam_planner_id = $examPlanner->id;
+            $exam->course_id = request('course');
+            $exam->date = request('date');
+            $exam->start_time = request('start_time');
+            $exam->end_time = request('end_time');
+            $exam->save();
+            return redirect('/periods/' . $examPlanner->period->id . '/exam-planner')->with('message', 'Exam ' . $exam->course->name . ' added.');
+        } else{
+            abort(403);
+        }
         //
     }
 
