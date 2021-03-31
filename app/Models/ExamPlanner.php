@@ -46,4 +46,13 @@ class ExamPlanner extends Model
         return $dates;
     }
 
+    public function dayExtraInfo($day){
+        $day = strtr($day, '/', '-');
+        return date('l d/m/Y', strtotime($day));
+    }
+    public function dayFormatConverter($day){
+        $day = strtr($day, '/', '-');
+        return date('Y-m-d', strtotime($day));
+    }
+
 }
