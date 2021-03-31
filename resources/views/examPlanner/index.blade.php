@@ -60,6 +60,10 @@
                                                     <span class="font-weight-bold">{{$exam->course->name}}</span>
                                                 </p>
                                                 <p>{{$exam->getStartTime()}} - {{$exam->getEndTime()}}</p>
+                                                <p>
+                                                    <i class="bi bi-pencil-square float-left cursor" onclick="editExam('{{$exam->date}}',{{$exam->id}}, {{$exam->course->id}}, {{$examPlanner->id}},'{{$examPlanner->start_date}}', '{{$examPlanner->end_date}}', '{{$exam->getStartTime()}}', '{{$exam->getEndTime()}}')"  data-toggle="modal" data-target="#editExamModal"></i>
+                                                    <i class="bi bi-trash float-right cursor" data-toggle="modal" data-target="#deleteExamModal" onclick="deleteExam({{$exam->id}})"></i>
+                                                </p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -195,9 +199,71 @@
         </div>
     </div>
 
+    <!-- EDIT EXAM MODEL -->
+    <div class="modal fade" id="editExamModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit exam</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="ExamEditForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="dateEditExam">Date</label>
+                            <input type="date" name="date" id="dateEditExam" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="courseEditExam">Course</label>
+                            <select name="course" id="courseEditExam" class="form-control">
+                                @foreach($period->courses as $course)
+                                    <option value="{{$course->id}}">{{$course->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('course')
+                            <p class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="startEditExam">Start time</label>
+                            <input type="time" name="start_time" id="startEditExam" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="endEditExam">End time</label>
+                            <input type="time" name="end_time" id="endEditExam" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         function examCreator(date){
             document.getElementById("examDate").value = date;
+        }
+        function editExam( date, id, course, examPlanner, startDay, endDay, startTime, endTime){
+            document.getElementById('dateEditExam').value =date;
+            document.getElementById("dateEditExam").min = startDay;
+            document.getElementById("dateEditExam").max = endDay;
+            document.getElementById('courseEditExam').value=course;
+            document.getElementById('startEditExam').value = startTime;
+            document.getElementById('endEditExam').value= endTime;
+            document.getElementById('endEditExam').min=startTime;
+            document.getElementById("ExamEditForm").action= "/exams/" + examPlanner + "/" + id + "/update";
+        }
+        function deleteExam(examID){
+
         }
     </script>
 

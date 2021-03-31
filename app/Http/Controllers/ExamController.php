@@ -87,9 +87,25 @@ class ExamController extends Controller
      * @param  \App\Models\Exam  $exam
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Exam $exam)
+    public function update(Request $request, ExamPlanner $examPlanner, Exam $exam)
     {
-        //
+        if($examPlanner->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date|before_or_equal:' . $examPlanner->getEndDate() . '|after_or_equal:' . $examPlanner->getStartDate(),
+                'start_time' => 'required|date_format:H:i',
+                'end_time' => 'required|date_format:H:i|after:start_time',
+            ]);
+            $exam->exam_planner_id = $examPlanner->id;
+            $exam->course_id = request('course');
+            $exam->date = request('date');
+            $exam->start_time = request('start_time');
+            $exam->end_time = request('end_time');
+            $exam->save();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 
     /**
