@@ -248,6 +248,31 @@
         </div>
     </div>
 
+    <!-- EXAM DELETE MODAL -->
+    <div class="modal fade" id="deleteExamModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete exam</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action=""  id="ExamDeleteForm">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this exam?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-danger">Yes, I am sure</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         function examCreator(date){
             document.getElementById("examDate").value = date;
@@ -263,7 +288,7 @@
             document.getElementById("ExamEditForm").action= "/exams/" + examPlanner + "/" + id + "/update";
         }
         function deleteExam(examID){
-
+            document.getElementById("ExamDeleteForm").action="/exams/" + examID + "/delete";
         }
     </script>
 

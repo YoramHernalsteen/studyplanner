@@ -116,6 +116,11 @@ class ExamController extends Controller
      */
     public function destroy(Exam $exam)
     {
-        //
+        if($exam->examPlanner->period->getUserId() == Auth::id()){
+            $exam->delete();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 }
