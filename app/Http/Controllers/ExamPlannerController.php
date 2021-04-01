@@ -54,7 +54,7 @@ class ExamPlannerController extends Controller
                 $request->validate([
                     'name'=>'required|max:15',
                     'start_date'=>'required|date',
-                    'end_date'=>'required|date|after:start_date|before:' . $period->due_date
+                    'end_date'=>'required|date|after:start_date'
                 ]);
 
                 $newExamPlanner = new ExamPlanner();
