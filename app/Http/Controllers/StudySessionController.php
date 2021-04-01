@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExamPlanner;
 use App\Models\StudySession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudySessionController extends Controller
 {
@@ -33,9 +35,26 @@ class StudySessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ExamPlanner $examPlanner)
     {
-        //
+        if($examPlanner->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date',
+                'hours' => 'required|numeric|min:0',
+                'info' => 'required|max:150',
+            ]);
+            $studySession = new StudySession();
+            $studySession->exam_planner_id = $examPlanner->id;
+            $studySession->date = request('date');
+            $studySession->hours = request('hours');
+            $studySession->info = request('info');
+            $studySession->course_id = request('course');
+            $studySession->save();
+            return back()->with('message', 'Study session for ' . $studySession->course->name . ' added.');
+        } else{
+            abort(403);
+        }
     }
 
     /**
@@ -63,13 +82,29 @@ class StudySessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StudySession  $studySession
+     * @param \Illuminate\Http\Request $request
+     * @param ExamPlanner $examPlanner
+     * @param \App\Models\StudySession $studySession
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StudySession $studySession)
+    public function update(Request $request,ExamPlanner $examPlanner, StudySession $studySession)
     {
-        //
+        if($examPlanner->period->getUserId() == Auth::id()){
+            $request->validate([
+                'course'=> 'required|exists:courses,id',
+                'date'=>'required|date',
+                'hours' => 'required|numeric|min:0',
+                'info' => 'required|max:150',
+            ]);
+            $studySession->date = request('date');
+            $studySession->hours = request('hours');
+            $studySession->info = request('info');
+            $studySession->course_id = request('course');
+            $studySession->save();
+            return back()->with('message', 'Study session for ' . $studySession->course->name . ' updated.');
+        } else{
+            abort(403);
+        }
     }
 
     /**
@@ -80,6 +115,11 @@ class StudySessionController extends Controller
      */
     public function destroy(StudySession $studySession)
     {
-        //
+        if($studySession->examPlanner->period->getUserId() == Auth::id()){
+            $studySession->delete();
+            return back();
+        } else{
+            abort(403);
+        }
     }
 }
