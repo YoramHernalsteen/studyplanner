@@ -37,8 +37,16 @@ class ExamPlanner extends Model
         $step = '+1 day';
         $output_format = 'd/m/Y';
         $dates = array();
-        $current = strtotime($this->getStartDate());
-        $last = strtotime($this->getEndDate());
+        if(date("D", strtotime($this->getStartDate())) == 'Mon'){
+            $current = strtotime($this->getStartDate());
+        } else{
+            $current =date(strtotime('previous monday', strtotime($this->getStartDate())));
+        }
+        if(date("D", strtotime($this->getStartDate())) == 'Sun'){
+            $last = strtotime($this->getEndDate());
+        } else{
+            $last =date(strtotime('next sunday', strtotime($this->getEndDate())));
+        }
         while( $current <= $last ) {
             $dates[] = date($output_format, $current);
             $current = strtotime($step, $current);
