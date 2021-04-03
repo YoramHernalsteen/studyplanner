@@ -51,7 +51,7 @@ class ExamController extends Controller
             $exam->start_time = request('start_time');
             $exam->end_time = request('end_time');
             $exam->save();
-            return redirect('/periods/' . $examPlanner->period->id . '/exam-planner')->with('message', 'Exam ' . $exam->course->name . ' added.');
+            return redirect()->to(url()->previous() . '#exam' . $exam->id)->with('message', 'Exam ' . $exam->course->name . ' added.');
         } else{
             abort(403);
         }
@@ -102,7 +102,7 @@ class ExamController extends Controller
             $exam->start_time = request('start_time');
             $exam->end_time = request('end_time');
             $exam->save();
-            return back();
+            return redirect()->to(url()->previous() . '#exam' . $exam->id);
         } else{
             abort(403);
         }

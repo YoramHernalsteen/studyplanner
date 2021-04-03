@@ -51,7 +51,7 @@ class StudySessionController extends Controller
             $studySession->info = request('info');
             $studySession->course_id = request('course');
             $studySession->save();
-            return back()->with('message', 'Study session for ' . $studySession->course->name . ' added.');
+            return redirect()->to(url()->previous() . '#study' . $studySession->id)->with('message', 'Study session for ' . $studySession->course->name . ' added.');
         } else{
             abort(403);
         }
@@ -101,7 +101,7 @@ class StudySessionController extends Controller
             $studySession->info = request('info');
             $studySession->course_id = request('course');
             $studySession->save();
-            return back()->with('message', 'Study session for ' . $studySession->course->name . ' updated.');
+            return redirect()->to(url()->previous() . '#study' . $studySession->id)->with('message', 'Study session for ' . $studySession->course->name . ' updated.');
         } else{
             abort(403);
         }

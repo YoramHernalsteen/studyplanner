@@ -55,7 +55,8 @@
                                         </div>
                                     </div>
                                     @foreach($examPlanner->examsOnDay($day) as $exam)
-                                        <div class="row" style="background-color:  #ffc6ff ">
+                                        <div class="row"style="background-color:  #ffc6ff ">
+                                            <div id="exam{{$exam->id}}" style="display: block;position: relative; visibility: hidden; top: -15em"></div>
                                             <div class="col-12 offset">
                                                 <p>
                                                     <span class="font-weight-bold">{{$exam->course->name}}</span>
@@ -75,6 +76,7 @@
                                         </div>
                                     </div>
                                     @foreach($examPlanner->studySessionsOnDay($day) as $study)
+                                        <div id="study{{$study->id}}" style="display: block;position: relative; visibility: hidden; top: -15em"></div>
                                         <div class="row">
                                             <div class="col-12 offset">
                                                 <p>
@@ -468,7 +470,7 @@
             document.getElementById('courseEditStudy').value=course;
             document.getElementById('infoEditStudy').value=info;
             document.getElementById('hoursEditStudy').value=hours;
-            document.getElementById("StudyEditForm").action= "/study-sessions/" + examPlanner + "/" + id + "/update";
+            document.getElementById("StudyEditForm").action= "/study-sessions/" + examPlanner + "/" + id + "/update#exam" + id;
         }
         function deleteExam(examID){
             document.getElementById("ExamDeleteForm").action="/exams/" + examID + "/delete";
